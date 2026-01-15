@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
+import { adminLogin } from "@/app/actions/adminAuth";
 
 export default function AdminGate() {
   const [input, setInput] = useState("");
@@ -11,19 +12,23 @@ export default function AdminGate() {
   // The secret key - in a real app, this should be handled via a secure backend
   const SECRET_KEY = "AVR2026"; 
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (input.toUpperCase() === SECRET_KEY) {
-      setStatus("ACCESS_GRANTED");
-      setTimeout(() => {
-        router.push("/admin/dashboard"); // Redirect to your actual admin area
-      }, 1500);
-    } else {
-      setStatus("INVALID_KEY");
-      setInput("");
-      setTimeout(() => setStatus("AWAITING_CREDENTIALS"), 2000);
-    }
-  };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setStatus("VERIFYING");
+
+  const res = await adminLogin(input);
+
+  if (res.success) {
+    setStatus("ACCESS_GRANTED");
+    setTimeout(() => {
+      router.push("/admin/dashboard");
+    }, 1200);
+  } else {
+    setStatus("INVALID_KEY");
+    setInput("");
+    setTimeout(() => setStatus("AWAITING_CREDENTIALS"), 2000);
+  }
+};
 
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-6 text-white font-mono selection:bg-white selection:text-black">
