@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
-import { X, Trash2, ShieldCheck } from "lucide-react";
+import { X, Trash2, ShieldCheck, AlertTriangle } from "lucide-react"; // Added AlertTriangle
 import { useArchive } from "@/context/ArchiveContext";
 import Link from "next/link";
 
@@ -13,6 +13,9 @@ export default function CartDrawer() {
     removeFromArchive, 
     archiveTotal 
   } = useArchive();
+
+  // Check if any item in the cart has been sold while it was sitting in the drawer
+  const hasSoldItems = archive.some(item => item.isSold);
 
   const drawerVariants: Variants = {
     hidden: { x: "100%", transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } },
@@ -75,19 +78,24 @@ export default function CartDrawer() {
               ) : (
                 archive.map((item, i) => (
                   <motion.div 
-                    key={item.id}
+                    key={item._id || item.id}
                     custom={i}
                     variants={itemVariants}
                     initial="hidden"
                     animate="visible"
-                    className="flex gap-8 items-start group"
+                    className={`flex gap-8 items-start group relative ${item.isSold ? 'opacity-40' : ''}`}
                   >
-                    <div className="w-20 h-28 bg-[#141414] flex-shrink-0 overflow-hidden relative">
+                    <div className="w-20 h-28 bg-[#141414] flex-shrink-0 overflow-hidden relative border border-white/5">
                       <img 
                         src={item.img} 
                         alt={item.name}
-                        className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-1000" 
+                        className={`w-full h-full object-cover transition-all duration-1000 ${item.isSold ? 'grayscale' : 'grayscale group-hover:grayscale-0 group-hover:scale-110'}`} 
                       />
+                      {item.isSold && (
+                        <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                           <span className="text-[6px] text-white uppercase tracking-[0.3em] font-bold">SOLD</span>
+                        </div>
+                      )}
                     </div>
                     
                     <div className="flex-1 min-w-0 pt-1">
@@ -97,13 +105,20 @@ export default function CartDrawer() {
                       <h3 className="text-[11px] uppercase tracking-[0.25em] text-white leading-tight mb-2 truncate">
                         {item.name}
                       </h3>
-                      <p className="text-xs font-serif italic text-white/60">
-                        ₦{item.price.toLocaleString()}
-                      </p>
+                      <div className="flex items-center gap-3">
+                        <p className="text-xs font-serif italic text-white/60">
+                          ₦{item.price.toLocaleString()}
+                        </p>
+                        {item.isSold && (
+                          <span className="text-[7px] text-red-500 uppercase font-mono tracking-widest flex items-center gap-1">
+                            <AlertTriangle size={8} /> Item No Longer Available
+                          </span>
+                        )}
+                      </div>
                     </div>
 
                     <button 
-                      onClick={() => removeFromArchive(item.id)} 
+                      onClick={() => removeFromArchive(item._id || item.id)} 
                       className="text-white/10 hover:text-white transition-colors pt-1"
                     >
                       <Trash2 size={14} strokeWidth={1.5} />
@@ -133,11 +148,22 @@ export default function CartDrawer() {
                   </span>
                 </div>
                 
-                <Link href="/checkout" onClick={() => setIsArchiveOpen(false)} className="block w-full">
-                  <button className="w-full bg-white text-black py-6 text-[10px] uppercase tracking-[0.6em] font-bold hover:bg-zinc-200 transition-colors">
-                    Acquire Selection
-                  </button>
-                </Link>
+                {hasSoldItems ? (
+                  <div className="space-y-4">
+                    <button className="w-full bg-zinc-800 text-white/40 cursor-not-allowed py-6 text-[10px] uppercase tracking-[0.6em] font-bold">
+                      Vault Sync Conflict
+                    </button>
+                    <p className="text-[8px] text-red-500/80 uppercase tracking-widest text-center font-mono">
+                      Please remove unavailable items to proceed
+                    </p>
+                  </div>
+                ) : (
+                  <Link href="/checkout" onClick={() => setIsArchiveOpen(false)} className="block w-full">
+                    <button className="w-full bg-white text-black py-6 text-[10px] uppercase tracking-[0.6em] font-bold hover:bg-zinc-200 transition-colors">
+                      Acquire Selection
+                    </button>
+                  </Link>
+                )}
                 
                 <p className="text-center text-[7px] text-white/20 uppercase tracking-[0.4em] font-mono">
                   SECURE ENCRYPTED LOGISTICS // LAGOS, NG

@@ -78,9 +78,9 @@ export default function Hero() {
             transition={{ delay: 1.8 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="relative px-12 py-5 border border-white/20 text-white text-[10px] uppercase tracking-[0.5em] group overflow-hidden"
+            className="relative px-12 py-5 border bg-white/20 border-white/20 text-white text-[10px] uppercase tracking-[0.5em] group overflow-hidden"
           >
-            <span className="relative z-10 group-hover:text-black transition-colors duration-500">
+            <span className="relative z-10  group-hover:text-black transition-colors duration-500">
               Explore
             </span>
             <motion.div 

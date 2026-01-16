@@ -1,35 +1,40 @@
+// app/success/page.tsx
 "use client";
-import { useEffect, useState, useRef, Suspense } from "react"; // Added Suspense
+import { useEffect, useState, Suspense, useRef } from "react"; // ← Add useRef
 import { useSearchParams, useRouter } from "next/navigation";
 import { useArchive } from "@/context/ArchiveContext";
-import { verifyPayment } from "@/app/actions/verify";
 import { Loader2, CheckCircle, XCircle } from "lucide-react";
 
-// 1. Move your UI logic into a separate internal component
 function SuccessContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const { archive, clearArchive } = useArchive();
+  const { clearArchive } = useArchive();
   const [status, setStatus] = useState<"verifying" | "success" | "error">("verifying");
-  const hasVerified = useRef(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  // ← Add this ref to prevent multiple executions
+  const hasProcessed = useRef(false);
 
   useEffect(() => {
-    const transactionId = searchParams.get("transaction_id");
-    
-    if (transactionId && !hasVerified.current) {
-      hasVerified.current = true;
-      
-      verifyPayment(transactionId, archive).then((res) => {
-        if (res && res.success) {
-          setStatus("success");
-          clearArchive(); 
-          setTimeout(() => router.push("/shop"), 5000);
-        } else {
-          setStatus("error");
-        }
-      });
+    // Prevent running more than once
+    if (hasProcessed.current) return;
+    hasProcessed.current = true;
+
+    const paymentStatus = searchParams.get("payment");
+    const msg = searchParams.get("msg");
+
+    if (paymentStatus === "success") {
+      setStatus("success");
+      clearArchive();
+      setTimeout(() => router.push("/shop"), 5000);
+    } else if (paymentStatus === "error" || paymentStatus === "failed") {
+      setStatus("error");
+      setErrorMessage(msg ? decodeURIComponent(msg) : "Payment processing failed. Please try again.");
+    } else {
+      setStatus("error");
+      setErrorMessage("Invalid access to success page.");
     }
-  }, [searchParams, archive, router, clearArchive]);
+  }, [searchParams, router, clearArchive]); // Dependencies are fine
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col items-center justify-center p-6 font-mono">
@@ -54,8 +59,16 @@ function SuccessContent() {
         <div className="text-center space-y-6">
           <XCircle className="mx-auto text-red-900/50" size={48} strokeWidth={1} />
           <h2 className="text-xl uppercase tracking-tighter italic text-red-500/80">Verification_Failed</h2>
-          <button onClick={() => router.push("/shop")} className="px-12 py-4 text-[10px] uppercase tracking-[0.4em] bg-white text-black font-bold">
-            Retry_Access
+          {errorMessage && (
+            <p className="text-[10px] text-red-500/60 uppercase tracking-widest">
+              {errorMessage}
+            </p>
+          )}
+          <button
+            onClick={() => router.push("/shop")}
+            className="px-12 py-4 text-[10px] uppercase tracking-[0.4em] bg-white text-black font-bold"
+          >
+            Return_to_Shop
           </button>
         </div>
       )}
@@ -63,14 +76,15 @@ function SuccessContent() {
   );
 }
 
-// 2. The main export wraps it in Suspense to fix the Vercel error
 export default function SuccessPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-black flex items-center justify-center">
-        <Loader2 className="animate-spin text-white/20" size={40} />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-black flex items-center justify-center">
+          <Loader2 className="animate-spin text-white/20" size={40} />
+        </div>
+      }
+    >
       <SuccessContent />
     </Suspense>
   );

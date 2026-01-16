@@ -1,13 +1,11 @@
 "use server";
 
-import  {connectDB}  from "@/lib/db";
-import  Product  from "@/lib/models/Product";
-import  {Order}  from "@/lib/models/Orders";
+import { connectDB } from "@/lib/db";
+import Product from "@/lib/models/Product";
+import { Order } from "@/lib/models/Orders"; // Ensure this import matches your Order model file
 import { revalidatePath } from "next/cache";
 import cloudinary from "@/lib/cloudinary";
 
-// REMOVED 'export' - Internal configuration is allowed, 
-// but it cannot be exported from a "use server" file.
 const maxDuration = 60; 
 
 /**
@@ -48,21 +46,18 @@ export async function uploadPiece(formData: FormData) {
       isSold: false,
     });
 
-    revalidatePath("/admin");
+    revalidatePath("/admin/dashboard");
     revalidatePath("/shop");
     return { success: true };
 
   } catch (error) {
     console.error("ADMIN_UPLOAD_ERROR:", error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : "Unknown server error" 
-    };
+    return { success: false, error: "Upload failed" };
   }
 }
 
 /**
- * 2. FETCH ORDERS
+ * 2. FETCH ORDERS (Sales Tab)
  */
 export async function getOrders() {
   try {
@@ -80,70 +75,86 @@ export async function getOrders() {
 }
 
 /**
- * 3. UPDATE ORDER STATUS
+ * 3. SYNCED INVENTORY (Inventory Tab)
+ * This logic ensures Inventory matches the Sales tab exactly.
  */
+export async function getInventory() {
+  try {
+    await connectDB();
 
+    // 1. Fetch all pieces from the manifest
+    const products = await Product.find({}).sort({ createdAt: -1 }).lean();
 
+    // 2. Fetch all successful transfers from the Sales log
+    const successfulOrders = await Order.find({ status: "SUCCESS" }).select("items").lean();
+    
+    // 3. Extract all product IDs that exist in successful orders
+    const soldItemIds = successfulOrders.flatMap((order: any) => 
+      order.items.map((id: any) => id.toString())
+    );
 
+    // 4. Auditor Logic: If the ID is in the sales log, force status to SOLD
+    const verifiedInventory = products.map((product: any) => {
+      const productId = product._id.toString();
+      
+      // Check if ID is in the list of items already paid for
+      const isActuallySold = soldItemIds.includes(productId) || product.isSold;
 
+      return {
+        ...product,
+        _id: productId,
+        isSold: isActuallySold, // Force the boolean to match reality
+        status: isActuallySold ? "SOLD" : "AVAILABLE" // Helper for your UI
+      };
+    });
+
+    return JSON.parse(JSON.stringify(verifiedInventory));
+  } catch (error) {
+    console.error("INVENTORY_AUDIT_ERROR:", error);
+    return [];
+  }
+}
+
+/**
+ * 4. UPDATE ORDER STATUS & MARK PRODUCT SOLD
+ */
 export async function updateOrderStatus(orderId: string) {
   try {
     await connectDB();
 
     const order = await Order.findById(orderId);
-    if (!order) return { success: false, error: "ORDER_NOT_FOUND" };
+    if (!order) return { success: false };
 
-    // ✅ FIX: Extract IDs safely whether they are strings or objects
-    const productIds = order.items.map((item: any) =>
-      typeof item === "string" ? item : (item._id || item.productId)
+    const productIds = order.items.map((i: any) =>
+      typeof i === "string" ? i : i._id
     );
 
-    // Run updates in parallel for speed
+    // Update both Order and Product models simultaneously
     await Promise.all([
-      // 1. Mark Order as Success
-      Order.findByIdAndUpdate(orderId, { $set: { status: "SUCCESS" } }),
-
-      // 2. Mark Products as Sold (This is what removes them from the Shop)
+      Order.findByIdAndUpdate(orderId, { status: "SUCCESS" }),
       Product.updateMany(
         { _id: { $in: productIds } },
         { $set: { isSold: true } }
       ),
     ]);
 
-    // ✅ REVALIDATE: Force Next.js to clear the cache for all affected pages
-    revalidatePath("/", "layout"); // Clears everything (safest)
-    revalidatePath("/shop");       // Updates the shop listing
-    revalidatePath("/admin/dashboard"); // Updates the admin view
+    revalidatePath("/shop");
+    revalidatePath("/admin/dashboard");
 
     return { success: true };
   } catch (error) {
-    console.error("SYNC_ERROR:", error);
-    return { success: false, error: "DATABASE_UPDATE_FAILED" };
+    return { success: false };
   }
 }
-// Add this to your existing server actions file
-export async function getInventory() {
-  try {
-    await connectDB();
-    // Using .lean() and no-cache ensures you get the latest true/false status
-    const products = await Product.find({}).sort({ createdAt: -1 }).lean();
-    return JSON.parse(JSON.stringify(products));
-  } catch (error) {
-    return [];
-  }
-}
-;
-
-// Existing actions...
 
 export async function deletePiece(id: string) {
   try {
     await connectDB();
     await Product.findByIdAndDelete(id);
     revalidatePath("/admin/dashboard");
+    revalidatePath("/shop");
     return { success: true };
   } catch (error) {
-    console.error("DELETE_ERROR:", error);
-    return { success: false, error: "Failed to delete piece" };
+    return { success: false };
   }
 }

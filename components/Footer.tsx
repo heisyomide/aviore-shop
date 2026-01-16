@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { motion } from "framer-motion";
-import Link from "next/link"; // Import Link
+import Link from "next/link";
 
 export default function Footer() {
   return (
@@ -16,12 +16,12 @@ export default function Footer() {
             viewport={{ once: true }}
             transition={{ duration: 1 }}
           >
-            <h2 className="text-[12vw] md:text-[8vw] font-bold tracking-tighter text-white uppercase italic leading-none">
+            <h2 className="text-[15vw] md:text-[8vw] font-bold tracking-tighter text-white uppercase italic leading-none">
               AVIORÈ
             </h2>
           </motion.div>
           
-          <div className="flex flex-col items-end text-right">
+          <div className="flex flex-col items-start md:items-end w-full md:w-auto">
             <p className="text-[10px] tracking-[0.4em] text-white/40 uppercase mb-4">Newsletter_Join</p>
             <div className="flex border-b border-white/20 pb-2 w-full md:w-64">
               <input 
@@ -35,44 +35,54 @@ export default function Footer() {
         </div>
 
         {/* MIDDLE SECTION: Links */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-12 mb-24">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-x-6 gap-y-16 mb-24">
           <FooterColumn 
             title="Navigation" 
-            links={["Archive", "Editorial", "About", "Contact"]} 
+            links={[
+              { name: "Archive", href: "/shop" },
+              { name: "Editorial", href: "/archives" }, // Points to your visual archive page
+              { name: "About", href: "/about" },
+              { name: "Contact", href: "/contact" }
+            ]} 
           />
           <FooterColumn 
             title="Social" 
-            links={["Instagram", "Discord", "X / Twitter"]} 
+            links={[
+              { name: "Instagram", href: "https://instagram.com" },
+              { name: "TikTok", href: "https://tiktok.com" },
+              { name: "Facebook", href: "https://facebook.com" },
+              { name: "X / Twitter", href: "https://x.com" }
+            ]} 
           />
           <FooterColumn 
             title="Legal" 
-            links={["Terms", "Privacy", "Shipping"]} 
+            links={[
+              { name: "Terms", href: "/terms" },
+              { name: "Privacy", href: "/privacy" },
+              { name: "Shipping", href: "/shipping" }
+            ]} 
           />
           <div className="flex flex-col justify-end">
-            <span className="text-[9px] font-mono text-white/20 uppercase tracking-[0.5em]">
-              ©️ 2026 AVIORÉ_SYSTEMS_INC
+            <span className="text-[9px] font-mono text-white/20 uppercase tracking-[0.5em] leading-loose">
+              ©️ 2026 <br /> AVIORÉ_SYSTEMS_INC
             </span>
           </div>
         </div>
 
         {/* BOTTOM SECTION: Status Bar */}
-        <div className="flex justify-between items-center pt-8 border-t border-white/5">
+        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-4">
           <div className="flex gap-8">
-            
-            {/* SECRET LINK STARTS HERE */}
             <Link 
               href="/admin-gate" 
-              className="flex items-center gap-2 cursor-default select-none"
+              className="flex items-center gap-2 cursor-pointer group"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-[9px] font-mono text-white/40 uppercase">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse group-hover:bg-white transition-colors" />
+              <span className="text-[9px] font-mono text-white/40 uppercase group-hover:text-white transition-colors">
                 Server_01_Online
               </span>
             </Link>
-            {/* SECRET LINK ENDS HERE */}
-
           </div>
-          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">
+          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest italic">
             Built with Precision.
           </span>
         </div>
@@ -81,20 +91,24 @@ export default function Footer() {
   );
 }
 
-function FooterColumn({ title, links }: { title: string; links: string[] }) {
+function FooterColumn({ title, links }: { title: string; links: { name: string; href: string }[] }) {
   return (
     <div className="flex flex-col gap-6">
       <h3 className="text-[10px] font-mono text-white/20 uppercase tracking-[0.5em]">{title}</h3>
       <ul className="flex flex-col gap-3">
         {links.map((link) => (
-          <li key={link}>
-            <motion.a 
-              href="#" 
-              whileHover={{ x: 5, color: "#fff" }}
-              className="text-xs text-white/50 hover:text-white transition-all duration-300 font-light"
+          <li key={link.name}>
+            <Link 
+              href={link.href}
+              className="text-xs text-white/50 hover:text-white transition-all duration-300 font-light block"
             >
-              {link}
-            </motion.a>
+              <motion.span 
+                className="inline-block"
+                whileHover={{ x: 4 }}
+              >
+                {link.name}
+              </motion.span>
+            </Link>
           </li>
         ))}
       </ul>

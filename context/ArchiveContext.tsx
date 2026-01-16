@@ -3,6 +3,7 @@ import React, { createContext, useContext, useState, useMemo, useEffect } from "
 
 interface ArchiveItem {
   id: string | number;
+  _id?: string | number; // Added to support MongoDB ID naming
   name: string;
   brand: string;
   price: number;
@@ -25,11 +26,10 @@ interface ArchiveContextType {
 const ArchiveContext = createContext<ArchiveContextType | undefined>(undefined);
 
 export const ArchiveProvider = ({ children }: { children: React.ReactNode }) => {
-  // 1. Initialize with an empty array
   const [archive, setArchive] = useState<ArchiveItem[]>([]);
   const [isArchiveOpen, setIsArchiveOpen] = useState(false);
 
-  // 2. LOAD from LocalStorage on mount
+  // LOAD from LocalStorage on mount
   useEffect(() => {
     const savedArchive = localStorage.getItem("avre_archive_vault");
     if (savedArchive) {
@@ -41,30 +41,38 @@ export const ArchiveProvider = ({ children }: { children: React.ReactNode }) => 
     }
   }, []);
 
-  // 3. SAVE to LocalStorage whenever archive changes
+  // SAVE to LocalStorage whenever archive changes
   useEffect(() => {
     localStorage.setItem("avre_archive_vault", JSON.stringify(archive));
   }, [archive]);
 
-const addToArchive = (item: ArchiveItem) => {
-  if (item.isSold) {
-    alert("ARCHIVE_NOTICE: This specimen has already been acquired.");
-    return;
-  }
-  setArchive((prev) => {
-    const exists = prev.find((i) => i.id === item.id);
-    if (exists) return prev; 
-    return [...prev, item];
-  });
-  setIsArchiveOpen(true);
-};
+  const addToArchive = (item: ArchiveItem) => {
+    // 1. HARD BLOCK: Prevent adding sold items to the bag
+    if (item.isSold) {
+      alert("ARCHIVE_NOTICE: This specimen has already been acquired.");
+      return;
+    }
+
+    setArchive((prev) => {
+      // 2. ID SYNC: Check both 'id' and '_id' to prevent duplicates
+      const itemId = item._id || item.id;
+      const exists = prev.find((i) => (i._id || i.id) === itemId);
+      
+      if (exists) return prev; 
+      return [...prev, item];
+    });
+    
+    setIsArchiveOpen(true);
+  };
+
   const removeFromArchive = (id: string | number) => {
-    setArchive((prev) => prev.filter((item) => item.id !== id));
+    // Check against both possible ID fields when removing
+    setArchive((prev) => prev.filter((item) => (item._id || item.id) !== id));
   };
 
   const clearArchive = () => {
     setArchive([]);
-    localStorage.removeItem("avre_archive_vault"); // Clean up storage
+    localStorage.removeItem("avre_archive_vault");
   };
 
   const archiveTotal = useMemo(() => 

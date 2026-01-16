@@ -4,6 +4,9 @@ import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import ArchiveGrid from "@/components/ArchiveGrid";
 import Footer from "@/components/Footer";
+import AcquisitionTicker from "@/components/Acquisition";
+import { HolderGallery } from "@/components/HolderGallery";
+import { CommandFAQ } from "@/components/CommandFAQ";
 
 export default function Home() {
   return (
@@ -18,6 +21,13 @@ export default function Home() {
       <div className="relative z-10">
         <ArchiveGrid />
       </div>
+
+      <AcquisitionTicker />
+
+      <HolderGallery />
+      
+
+      <CommandFAQ />
 
       {/* Global Footer */}
       <Footer />
