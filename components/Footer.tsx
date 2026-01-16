@@ -70,19 +70,23 @@ export default function Footer() {
         </div>
 
         {/* BOTTOM SECTION: Status Bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/5 gap-4">
+        <div className="flex justify-between items-center pt-8 border-t border-white/5">
           <div className="flex gap-8">
+            
+            {/* SECRET LINK STARTS HERE */}
             <Link 
               href="/admin-gate" 
-              className="flex items-center gap-2 cursor-pointer group"
+              className="flex items-center gap-2 cursor-default select-none"
             >
-              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse group-hover:bg-white transition-colors" />
-              <span className="text-[9px] font-mono text-white/40 uppercase group-hover:text-white transition-colors">
+              <div className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-[9px] font-mono text-white/40 uppercase">
                 Server_01_Online
               </span>
             </Link>
+            {/* SECRET LINK ENDS HERE */}
+
           </div>
-          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest italic">
+          <span className="text-[9px] font-mono text-white/40 uppercase tracking-widest">
             Built with Precision.
           </span>
         </div>
