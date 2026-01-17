@@ -9,9 +9,9 @@ const SECTIONS = [
     category: "Denim",
     description: "Extra wide leg archival denim with heavy stacking.",
     images: [
-      "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80",
-      "https://images.unsplash.com/photo-1624372333417-645e042c86b8?q=80",
-      "https://images.unsplash.com/photo-1511191088267-9303d077431e?q=80"
+      "/baggy/baggy 1.jpg",
+      "baggy/baggy 2.jpg",
+      "baggy/baggy 3.jpg"
     ]
   },
   {
@@ -19,7 +19,7 @@ const SECTIONS = [
     category: "Tops",
     description: "Heavyweight sun-faded cotton and oversized fits.",
     images: [
-      "https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80",
+      "sweatshirt/swaet1.jpg",
       "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?q=80",
       "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80"
     ]
@@ -29,8 +29,8 @@ const SECTIONS = [
     category: "Denim",
     description: "Tailored vintage cuts and stacked pencil fits.",
     images: [
-      "https://images.unsplash.com/photo-1582552938357-32b906df40cb?q=80",
-      "https://images.unsplash.com/photo-1594938328870-9623159c8c99?q=80",
+      "baggy/slim1.jpg",
+      "baggy/slim2.jpg",
       "https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?q=80"
     ]
   },
@@ -40,7 +40,7 @@ const SECTIONS = [
     description: "Vintage three-quarter lengths and workwear shorts.",
     images: [
       "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80",
-      "https://images.unsplash.com/photo-1617114919297-3c8ddb01f599?q=80",
+      "baggy/short2.jpg",
       "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?q=80"
     ]
   },
@@ -50,8 +50,8 @@ const SECTIONS = [
     description: "Distressed graphic tees and authenticated relics.",
     images: [
       "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80",
-      "https://images.unsplash.com/photo-1503342392332-72167de13766?q=80",
-      "https://images.unsplash.com/photo-1467043237213-65f2da53396f?q=80"
+      "sweatshirt/top2.jpg",
+      "sweatshirt/top3.jpg"
     ]
   }
 ];

@@ -48,10 +48,10 @@ export default function Footer() {
           <FooterColumn 
             title="Social" 
             links={[
-              { name: "Instagram", href: "https://instagram.com" },
-              { name: "TikTok", href: "https://tiktok.com" },
-              { name: "Facebook", href: "https://facebook.com" },
-              { name: "X / Twitter", href: "https://x.com" }
+              { name: "Instagram", href: "https://www.instagram.com/shopaviore?" },
+              { name: "TikTok", href: "https://www.tiktok.com/@shopaviore?_r=1&_t=ZS-9394UPpDynU" },
+              { name: "Facebook", href: "https://facebook/shopaviore.com" },
+              { name: "X / Twitter", href: "https://x.com/shopaviore?s=21" }
             ]} 
           />
           <FooterColumn 

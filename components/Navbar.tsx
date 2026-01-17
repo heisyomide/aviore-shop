@@ -39,10 +39,10 @@ export default function Navbar() {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <Link href="/" className="group flex flex-col">
             <span className="text-2xl font-bold tracking-tighter text-white uppercase italic leading-none">
-              Avioré
+              Aviorè
             </span>
             <span className="text-[7px] tracking-[0.3em] text-white/30 uppercase font-mono mt-1">
-              Quality Denim Archive
+              REDIFINED STYLE
             </span>
           </Link>
 

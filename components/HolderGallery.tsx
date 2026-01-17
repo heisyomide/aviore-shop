@@ -3,10 +3,10 @@ import React from "react";
 import { motion } from "framer-motion";
 
 const GALLERY_IMAGES = [
-  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80",
-  "https://images.unsplash.com/photo-1529139513477-42f4d9b4ce84?q=80",
-  "https://images.unsplash.com/photo-1539109132314-d4a8c62e4042?q=80",
-  "https://images.unsplash.com/photo-1496217590455-aa63a8350eea?q=80"
+  "baggy/model2.jpg",
+  "baggy/model4.jpg",
+  "baggy/model1.jpg",
+  "baggy/model3.jpg"
 ];
 
 export function HolderGallery() {
