@@ -50,7 +50,7 @@ export default function Footer() {
             links={[
               { name: "Instagram", href: "https://www.instagram.com/shopaviore?" },
               { name: "TikTok", href: "https://www.tiktok.com/@shopaviore?_r=1&_t=ZS-9394UPpDynU" },
-              { name: "Facebook", href: "https://facebook/shopaviore.com" },
+              { name: "Facebook", href: "https://www.facebook.com/share/1T8Ss6Hvq1/?mibextid=wwXIfr" },
               { name: "X / Twitter", href: "https://x.com/shopaviore?s=21" }
             ]} 
           />
