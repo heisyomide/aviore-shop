@@ -59,7 +59,7 @@ const SECTIONS = [
 export default function ArchiveGrid() {
   return (
     <section className="bg-[#050505] py-20 px-4 md:px-12 border-t border-white/5">
-      <div className="max-w-[1400px] mx-auto">
+      <div className="max-w-350 mx-auto">
         
         {/* Mobile-First Header */}
         <div className="mb-24 border-b border-white/5 pb-10">
@@ -70,7 +70,7 @@ export default function ArchiveGrid() {
             <p className="text-[8px] md:text-[10px] text-white/40 uppercase tracking-[0.4em] font-mono">
               Nigeria Based 1-of-1 Curated fashion world
             </p>
-            <span className="h-[1px] w-12 bg-white/20"></span>
+            <span className="h-px w-12 bg-white/20"></span>
           </div>
         </div>
 
@@ -100,7 +100,7 @@ export default function ArchiveGrid() {
                 {section.images.map((img: string, i: number) => (
                   <div 
                     key={i}
-                    className={`overflow-hidden bg-[#111] aspect-[3/4] border border-white/5 ${
+                    className={`overflow-hidden bg-[#111] aspect-3/4 border border-white/5 ${
                       i === 2 ? "hidden md:block" : "" // Hide 3rd image on small mobile to keep thumbnails large
                     }`}
                   >

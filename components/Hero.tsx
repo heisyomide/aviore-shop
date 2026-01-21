@@ -27,7 +27,7 @@ export default function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 3 }}
-          className="absolute inset-0 bg-gradient-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90"
+          className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90"
         />
       </div>
 
@@ -57,7 +57,7 @@ export default function Hero() {
             initial={{ scaleX: 0 }}
             animate={{ scaleX: 1 }}
             transition={{ duration: 1.5, delay: 1.2, ease: "easeInOut" }}
-            className="h-px w-full bg-gradient-to-r from-white/40 to-transparent mb-6 origin-left" 
+            className="h-px w-full bg-linear-to-r from-white/40 to-transparent mb-6 origin-left" 
           />
 
           <motion.p 

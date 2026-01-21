@@ -64,7 +64,7 @@ export default function Footer() {
           />
           <div className="flex flex-col justify-end">
             <span className="text-[9px] font-mono text-white/20 uppercase tracking-[0.5em] leading-loose">
-              ©️ 2026 <br /> AVIORÉ_SYSTEMS_INC
+              ©️ 2026 <br /> AVIORÈ_SYSTEMS_INC
             </span>
           </div>
         </div>

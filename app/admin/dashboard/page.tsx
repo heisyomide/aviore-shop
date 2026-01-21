@@ -115,7 +115,7 @@ export default function AdminDashboard() {
       {/* --- HEADER --- */}
       <header className="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-white/5 pb-8 gap-4">
         <div>
-          <h1 className="text-xl tracking-[0.4em] uppercase font-bold text-white/90">Avioré_Archive_Command</h1>
+          <h1 className="text-xl tracking-[0.4em] uppercase font-bold text-white/90">Aviorè_Archive_Command</h1>
           <div className="flex items-center gap-4 mt-2">
             <p className="text-[10px] text-white/30 uppercase tracking-widest italic flex items-center gap-2">
               Status: <span className="text-green-500 underline animate-pulse">ENCRYPTED_LIVE</span>
@@ -150,7 +150,7 @@ export default function AdminDashboard() {
             {/* UPLOAD FORM */}
             <div className="lg:col-span-4 space-y-6">
               <h2 className="text-[10px] uppercase tracking-[0.4em] text-white/40 flex items-center gap-2"><Plus size={14} /> Commit_New_Piece</h2>
-              <form onSubmit={handleCommit} className="space-y-4 bg-white/[0.02] border border-white/5 p-6">
+              <form onSubmit={handleCommit} className="space-y-4 bg-white/2 border border-white/5 p-6">
                 <AdminInput name="name" label="Piece_Identity" placeholder="VINTAGE_DENIM_501" />
                 <AdminInput name="brand" label="Entity_Brand" placeholder="LEVIS" />
                 <div className="grid grid-cols-2 gap-4">
@@ -201,11 +201,11 @@ export default function AdminDashboard() {
 
             {/* INVENTORY LOG */}
             <div className="lg:col-span-8 space-y-6">
-               <div className="border border-white/5 bg-white/[0.01]">
-                <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/[0.02]">
+               <div className="border border-white/5 bg-white/1">
+                <div className="p-4 border-b border-white/5 flex justify-between items-center bg-white/2">
                   <h2 className="text-[10px] uppercase tracking-[0.4em] text-white/40">Manifest_Log</h2>
                 </div>
-                <div className="overflow-x-auto max-h-[600px] scrollbar-hide">
+                <div className="overflow-x-auto max-h-150 scrollbar-hide">
                   <table className="w-full text-left">
                     <thead className="text-[7px] text-white/20 uppercase tracking-[0.3em] border-b border-white/5 sticky top-0 bg-black z-10">
                       <tr>
@@ -216,7 +216,7 @@ export default function AdminDashboard() {
                     </thead>
                     <tbody className="text-[9px] uppercase">
                       {inventory.map((item) => (
-                        <tr key={item._id} className={`border-b border-white/5 hover:bg-white/[0.02] transition-colors ${item.isSold ? 'opacity-30' : ''}`}>
+                        <tr key={item._id} className={`border-b border-white/5 hover:bg-white/2 transition-colors ${item.isSold ? 'opacity-30' : ''}`}>
                           <td className="p-4 text-white/40 font-mono">{item.lotNumber || '---'}</td>
                           <td className="p-4">
                              <span className="block font-bold tracking-widest">{item.name}</span>
@@ -251,7 +251,7 @@ export default function AdminDashboard() {
                 <input 
                   type="text" 
                   placeholder="SEARCH_LOGS..." 
-                  className="w-full bg-white/[0.03] border border-white/10 py-2 pl-9 pr-4 text-[9px] outline-none focus:border-white/30 uppercase"
+                  className="w-full bg-white/3 border border-white/10 py-2 pl-9 pr-4 text-[9px] outline-none focus:border-white/30 uppercase"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                 />
@@ -263,8 +263,8 @@ export default function AdminDashboard() {
                 <div className="py-20 text-center border border-dashed border-white/5 text-[10px] text-white/20 uppercase tracking-widest">No_Records_Found</div>
               ) : (
                 filteredOrders.map((order) => (
-                  <div key={order._id} className="bg-white/[0.01] border border-white/5 p-6 flex flex-col md:flex-row justify-between gap-8 group hover:border-white/20 transition-all relative">
-                    <div className="space-y-4 min-w-[220px]">
+                  <div key={order._id} className="bg-white/1 border border-white/5 p-6 flex flex-col md:flex-row justify-between gap-8 group hover:border-white/20 transition-all relative">
+                    <div className="space-y-4 min-w-55">
                       <div className="space-y-2">
                         <p className="text-[8px] text-white/20 uppercase tracking-widest font-bold">Customer_Entity</p>
                         <p className="text-[11px] font-bold uppercase flex items-center gap-2"><User size={12} className="text-white/40"/> {order.customerName}</p>
@@ -281,7 +281,7 @@ export default function AdminDashboard() {
                     <div className="flex-1 md:border-x border-white/5 md:px-8 flex flex-col justify-center gap-3">
                       <p className="text-[8px] text-white/20 uppercase tracking-widest font-bold">Acquired_Specimens</p>
                       {order.items.map((item) => (
-                        <div key={item._id} className="flex items-center gap-4 bg-white/[0.02] p-2 border border-white/5">
+                        <div key={item._id} className="flex items-center gap-4 bg-white/2 p-2 border border-white/5">
                           <div className="h-10 w-10 bg-zinc-900 border border-white/10 grayscale shrink-0">
                              {item.img && <img src={item.img} alt="" className="h-full w-full object-cover opacity-50" />}
                           </div>
@@ -293,7 +293,7 @@ export default function AdminDashboard() {
                       ))}
                     </div>
 
-                    <div className="text-right flex flex-col justify-between items-end min-w-[180px]">
+                    <div className="text-right flex flex-col justify-between items-end min-w-45">
                       <div className="space-y-1">
                         <p className="text-2xl italic font-serif text-white">₦{order.amount.toLocaleString()}</p>
                         <p className="text-[8px] text-white/10 font-mono uppercase flex items-center gap-1 justify-end">
@@ -337,7 +337,7 @@ function AdminInput({ label, placeholder, name, type = "text" }: { label: string
 
 function StatCard({ label, value, icon, color = "text-white" }: { label: string; value: string; icon: React.ReactNode; color?: string }) {
   return (
-    <div className="p-6 border border-white/5 bg-white/[0.01] flex flex-col justify-between hover:bg-white/[0.02] transition-all h-32 group">
+    <div className="p-6 border border-white/5 bg-white/1 flex flex-col justify-between hover:bg-white/2 transition-all h-32 group">
       <div className="flex justify-between items-start text-white/20 group-hover:text-white/40 transition-all">
         <span className="text-[8px] uppercase tracking-widest font-bold">{label}</span>
         {icon}

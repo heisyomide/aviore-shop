@@ -26,7 +26,7 @@ export default function CheckoutPage() {
       const checkRes = await fetch("/api/checkout/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: archive.map(i => i.id) }),
+        body: JSON.stringify({ items: archive.map((i: { id: any; }) => i.id) }),
       });
 
       const checkData = await checkRes.json();

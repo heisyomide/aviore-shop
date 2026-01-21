@@ -72,10 +72,10 @@ export default function EditorialPage() {
                 className={`${story.size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} group cursor-pointer`}
               >
                 <Link href={`/editorial/${story.id}`}>
-                  <div className="relative overflow-hidden bg-zinc-900 aspect-[16/9] md:aspect-auto md:h-[70vh] mb-8">
+                  <div className="relative overflow-hidden bg-zinc-900 aspect-video md:aspect-auto md:h-[70vh] mb-8">
                     <img 
                       src={story.img} 
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-[2000ms] ease-out opacity-60 group-hover:opacity-100"
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-2000 ease-out opacity-60 group-hover:opacity-100"
                       alt={story.title}
                     />
                     <div className="absolute top-8 left-8">

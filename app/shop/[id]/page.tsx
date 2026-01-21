@@ -42,7 +42,7 @@ export default function ProductDetail() {
 
   if (loading) return (
     <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-6 text-center">
-      <div className="w-12 h-[1px] bg-white/20 mb-4 animate-pulse" />
+      <div className="w-12 h-px bg-white/20 mb-4 animate-pulse" />
       <p className="text-[9px] uppercase tracking-[0.6em] text-white/40">Accessing_Archive_Data</p>
     </div>
   );
@@ -55,7 +55,7 @@ export default function ProductDetail() {
 
   return (
     <div className="bg-[#050505] min-h-screen text-white font-sans selection:bg-white selection:text-black">
-      <main className="pt-24 pb-20 px-4 md:px-12 max-w-[1400px] mx-auto">
+      <main className="pt-24 pb-20 px-4 md:px-12 max-w-350 mx-auto">
         
         {/* TOP NAVIGATION / STATUS */}
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
@@ -83,7 +83,7 @@ export default function ProductDetail() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8 }}
-                className="relative aspect-[3/4] md:aspect-[4/5] overflow-hidden bg-[#0a0a0a] border border-white/5"
+                className="relative aspect-3/4 md:aspect-4/5 overflow-hidden bg-[#0a0a0a] border border-white/5"
               >
                 <img 
                   src={img} 

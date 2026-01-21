@@ -32,7 +32,7 @@ export default function ShippingPage() {
           <h2 className="text-[10px] uppercase tracking-[0.5em] text-white/40 mb-8 flex items-center gap-2">
             <MapPin size={14} /> Transit_Zones
           </h2>
-          <div className="border border-white/10 bg-white/[0.02] overflow-hidden">
+          <div className="border border-white/10 bg-white/2 overflow-hidden">
             <table className="w-full text-left text-[11px] uppercase tracking-widest">
               <thead>
                 <tr className="border-b border-white/10 text-white/40">
@@ -97,7 +97,7 @@ export default function ShippingPage() {
               </p>
             </div>
             
-            <div className="p-8 border border-dashed border-white/20 bg-white/[0.01]">
+            <div className="p-8 border border-dashed border-white/20 bg-white/1">
               <h4 className="text-[10px] uppercase tracking-[0.4em] mb-4">International_Orders</h4>
               <p className="text-[10px] leading-relaxed text-white/30 uppercase tracking-widest">
                 We ship worldwide via DHL Express. International rates are calculated at checkout based on weight and destination. Custom duties remain the responsibility of the acquirer.

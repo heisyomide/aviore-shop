@@ -20,7 +20,7 @@ export default function ArchivesPage() {
     <div className="bg-[#050505] min-h-screen text-white selection:bg-white selection:text-black font-mono">
       <Navbar />
       
-      <main className="pt-40 pb-20 px-6 md:px-12 max-w-[1600px] mx-auto">
+      <main className="pt-40 pb-20 px-6 md:px-12 max-w-400 mx-auto">
         {/* Archive Header */}
         <section className="mb-32 flex flex-col md:flex-row justify-between items-end gap-12">
           <div className="max-w-2xl">
@@ -53,7 +53,7 @@ export default function ArchivesPage() {
                 initial={{ opacity: 0, filter: "blur(10px)" }}
                 whileInView={{ opacity: 1, filter: "blur(0px)" }}
                 transition={{ duration: 1, delay: idx * 0.1 }}
-                className="group border border-white/5 bg-white/[0.02] p-4 flex flex-col"
+                className="group border border-white/5 bg-white/2 p-4 flex flex-col"
               >
                 {/* Visual Record */}
                 <div className="aspect-square overflow-hidden mb-6 relative grayscale brightness-50 contrast-125 group-hover:brightness-100 group-hover:grayscale-0 transition-all duration-700">

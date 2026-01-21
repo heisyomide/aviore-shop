@@ -30,7 +30,7 @@ export default function Navbar() {
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 w-full z-[100] transition-all duration-500 px-6 md:px-12 py-6 ${
+        className={`fixed top-0 w-full z-100 transition-all duration-500 px-6 md:px-12 py-6 ${
           isScrolled 
             ? "bg-black/80 backdrop-blur-xl border-b border-white/5 py-4" 
             : "bg-transparent"
@@ -99,11 +99,11 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[110] bg-black p-6 flex flex-col justify-between"
+            className="fixed inset-0 z-110 bg-black p-6 flex flex-col justify-between"
           >
             <div className="flex justify-between items-start">
               <div className="flex flex-col">
-                <span className="text-2xl font-bold tracking-tighter text-white uppercase italic">Avioré</span>
+                <span className="text-2xl font-bold tracking-tighter text-white uppercase italic">Aviorè</span>
                 <span className="text-[7px] tracking-[0.3em] text-white/30 uppercase font-mono">Mobile_Portal</span>
               </div>
               <button onClick={() => setIsMobileMenuOpen(false)} className="p-2 text-white">

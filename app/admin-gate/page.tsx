@@ -33,7 +33,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   return (
     <div className="min-h-screen bg-[#050505] flex flex-col items-center justify-center p-6 text-white font-mono selection:bg-white selection:text-black">
       {/* Visual scanline effect */}
-      <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-50 bg-[length:100%_2px,3px_100%]" />
+      <div className="fixed inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-50 bg-size-[100%_2px,3px_100%]" />
       
       <motion.div 
         initial={{ opacity: 0 }}
@@ -51,7 +51,7 @@ const handleSubmit = async (e: React.FormEvent) => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="relative border border-white/10 p-6 bg-white/[0.02] backdrop-blur-sm">
+          <div className="relative border border-white/10 p-6 bg-white/2 backdrop-blur-sm">
             <label className="block text-[8px] uppercase tracking-[0.4em] text-white/30 mb-4">
               Enter_Access_Protocol
             </label>

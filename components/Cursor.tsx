@@ -22,7 +22,7 @@ export default function Cursor() {
 
   return (
     <motion.div
-      className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full mix-blend-difference pointer-events-none z-[9999] hidden md:block"
+      className="fixed top-0 left-0 w-4 h-4 bg-white rounded-full mix-blend-difference pointer-events-none z-9999 hidden md:block"
       style={{
         translateX: scrollX,
         translateY: scrollY,

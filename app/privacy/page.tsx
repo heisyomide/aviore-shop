@@ -34,7 +34,7 @@ export default function PrivacyPage() {
           <PrivacySection 
             number="02" 
             title="Transaction_Security" 
-            content="Financial data is never stored on AVIORÉ servers. All transmissions are routed through encrypted payment gateways (Flutterwave) to ensure the integrity of the acquisition process." 
+            content="Financial data is never stored on AVIORÈ servers. All transmissions are routed through encrypted payment gateways (Flutterwave) to ensure the integrity of the acquisition process." 
           />
 
           <PrivacySection 
@@ -54,7 +54,7 @@ export default function PrivacyPage() {
         {/* DISCLAIMER BOX */}
         <div className="mt-32 p-8 border border-white/10 bg-[#0a0a0a]">
           <p className="text-[9px] text-white/40 uppercase tracking-[0.3em] leading-loose text-center">
-            By accessing the AVIORÉ archive, you acknowledge and agree to these operational data protocols.
+            By accessing the AVIORÈ archive, you acknowledge and agree to these operational data protocols.
           </p>
         </div>
       </main>

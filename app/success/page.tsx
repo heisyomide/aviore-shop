@@ -68,7 +68,7 @@ function SuccessContent() {
 
             <div className="bg-[#0a0a0a] border border-white/5 p-8 font-mono relative overflow-hidden">
                {/* Watermark */}
-               <div className="absolute top-2 right-4 text-[40px] opacity-[0.02] font-bold select-none italic">AVIORÉ</div>
+               <div className="absolute top-2 right-4 text-[40px] opacity-[0.02] font-bold select-none italic">AVIORÈ</div>
                
                <div className="space-y-6 relative z-10">
                   <div className="flex justify-between items-end border-b border-white/5 pb-4">

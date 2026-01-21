@@ -23,7 +23,7 @@ export default function AboutPage() {
               The_Archive <br /> Protocol.
             </h1>
             <p className="text-xl md:text-2xl font-light text-white/60 leading-relaxed tracking-tight">
-              AVIORÉ is a curated digital vault based in Lagos, Nigeria. We do not sell "clothes"; we manage an archive of 1-of-1 artifacts sourced from across the globe, specifically selected for their construction, history, and silhouette.
+              AVIORÈ is a curated digital vault based in Lagos, Nigeria. We do not sell "clothes"; we manage an archive of 1-of-1 artifacts sourced from across the globe, specifically selected for their construction, history, and silhouette.
             </p>
           </motion.div>
         </section>
@@ -32,7 +32,7 @@ export default function AboutPage() {
         <section className="w-full h-[60vh] bg-[#111] overflow-hidden mb-40 grayscale group">
           <img 
             src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&q=80" 
-            className="w-full h-full object-cover opacity-50 group-hover:scale-105 group-hover:opacity-80 transition-all duration-[3000ms]"
+            className="w-full h-full object-cover opacity-50 group-hover:scale-105 group-hover:opacity-80 transition-all duration-3000"
             alt="Textile detail"
           />
         </section>
@@ -52,7 +52,7 @@ export default function AboutPage() {
           <ValueBlock 
             icon={<Recycle size={24} strokeWidth={1} />}
             title="Circularity"
-            desc="By repurposing high-quality garments, we reject the cycle of fast fashion. AVIORÉ exists to extend the lifespan of exceptional design."
+            desc="By repurposing high-quality garments, we reject the cycle of fast fashion. AVIORÈ exists to extend the lifespan of exceptional design."
           />
         </section>
 

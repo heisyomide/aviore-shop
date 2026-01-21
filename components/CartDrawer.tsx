@@ -44,7 +44,7 @@ export default function CartDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={() => setIsArchiveOpen(false)}
-            className="fixed inset-0 bg-black/40 backdrop-blur-md z-[200]"
+            className="fixed inset-0 bg-black/40 backdrop-blur-md z-200"
           />
 
           <motion.div
@@ -52,7 +52,7 @@ export default function CartDrawer() {
             initial="hidden"
             animate="visible"
             exit="hidden"
-            className="fixed right-0 top-0 h-full w-full md:w-[480px] bg-[#0a0a0a] z-[210] p-8 md:p-12 flex flex-col border-l border-white/5 shadow-2xl"
+            className="fixed right-0 top-0 h-full w-full md:w-120 bg-[#0a0a0a] z-210 p-8 md:p-12 flex flex-col border-l border-white/5 shadow-2xl"
           >
             {/* Header */}
             <div className="flex justify-between items-center mb-16">
@@ -85,7 +85,7 @@ export default function CartDrawer() {
                     animate="visible"
                     className={`flex gap-8 items-start group relative ${item.isSold ? 'opacity-40' : ''}`}
                   >
-                    <div className="w-20 h-28 bg-[#141414] flex-shrink-0 overflow-hidden relative border border-white/5">
+                    <div className="w-20 h-28 bg-[#141414] shrink-0 overflow-hidden relative border border-white/5">
                       <img 
                         src={item.img} 
                         alt={item.name}
