@@ -1,15 +1,12 @@
-// app/actions/verify.ts (assuming this is the "use server" file path based on your correction)
 "use server";
 
-import { Resend } from "resend";
 import jsPDF from "jspdf";
+import mongoose from "mongoose";
 import { connectDB } from "@/lib/db";
 import Product from "@/lib/models/Product";
 import { Order } from "@/lib/models/Orders";
-import { getAcquisitionTemplate } from "@/lib/email-templates";
-import mongoose from "mongoose";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { transporter } from "@/lib/mailer"; // Your Nodemailer transporter
+import { generateReceiptHTML } from "@/lib/email-templates"; // The receipt template built earlier
 
 interface FlutterwaveData {
   status: string;
@@ -30,6 +27,8 @@ interface ArchiveItem {
   id?: string;
   name: string;
   brand: string;
+  price: number; // Added price for receipt calculations
+  lotNumber?: string;
 }
 
 export async function verifyPayment(
@@ -40,26 +39,22 @@ export async function verifyPayment(
   try {
     await connectDB();
 
+    // 1. Validate and Convert IDs
     const itemIds = archiveItems.map((item) => {
       const id = item._id || item.id;
-      if (!id) throw new Error("Missing item ID");
+      if (!id) throw new Error("CRITICAL_ERROR: Missing_Item_Identity");
       return new mongoose.Types.ObjectId(id);
     });
 
-    if (itemIds.length === 0) {
-      throw new Error("No items to process");
-    }
+    if (itemIds.length === 0) throw new Error("ERROR: Empty_Payload");
 
-    // Update products
+    // 2. Database Operations: Mark as Sold & Create Order
     const updateResult = await Product.updateMany(
       { _id: { $in: itemIds }, isSold: false },
       { $set: { isSold: true } }
     );
 
-    console.log(`Updated ${updateResult.modifiedCount} products to sold`);
-
-    // Create Order
-    await Order.create({
+    const order = await Order.create({
       items: itemIds,
       amount: flutterwaveData.amount,
       customerName: flutterwaveData.customer.name,
@@ -70,43 +65,60 @@ export async function verifyPayment(
       flw_id: transactionId,
     });
 
-    // Generate PDF
+    // 3. Generate Official PDF Manifest
     const doc = new jsPDF();
+    doc.setFont("courier", "bold");
+    doc.text("AVIORÉ_ARCHIVE_COMMAND // OFFICIAL_MANIFEST", 10, 20);
+    
     doc.setFont("courier", "normal");
     doc.setFontSize(10);
-    doc.text("AVIORÉ_ARCHIVE_COMMAND // OFFICIAL_MANIFEST", 10, 20);
-    doc.text(`TRANSACTION_ID: ${transactionId}`, 10, 35);
-
-    // Handle potential overflow with multiple pages
-    let yPos = 75;
-    archiveItems.forEach((item) => {
+    doc.text(`TRANSACTION_REF: ${flutterwaveData.tx_ref}`, 10, 30);
+    doc.text(`HOLDER: ${flutterwaveData.customer.name.toUpperCase()}`, 10, 35);
+    doc.text(`DATE: ${new Date().toISOString()}`, 10, 40);
+    
+    doc.text("--------------------------------------------------", 10, 50);
+    
+    let yPos = 60;
+    archiveItems.forEach((item, index) => {
       if (yPos > 270) {
         doc.addPage();
         yPos = 20;
       }
-      doc.text(`> ${item.name} [${item.brand}]`, 15, yPos);
+      doc.text(`${index + 1}. [${item.brand}] ${item.name}`, 15, yPos);
       yPos += 10;
     });
 
     const pdfBuffer = Buffer.from(doc.output("arraybuffer"));
 
-    // Send Email
-    await resend.emails.send({
-      from: "Avioré Archive <onboarding@resend.dev>",
-      to: [process.env.MY_ADMIN_EMAIL!, flutterwaveData.customer.email],
-      subject: `ACQUISITION_CONFIRMED: ${transactionId}`,
-      html: getAcquisitionTemplate(
-        flutterwaveData.customer.name,
-        archiveItems,
-        flutterwaveData.amount,
-        transactionId
-      ),
-      attachments: [{ filename: `AVR_MANIFEST_${transactionId}.pdf`, content: pdfBuffer }],
+    // 4. Generate & Send Email via Nodemailer
+    const receiptHtml = generateReceiptHTML({
+      customerName: flutterwaveData.customer.name,
+      orderId: flutterwaveData.tx_ref,
+      items: archiveItems,
+      total: flutterwaveData.amount,
+      shippingAddress: "Contact Holder for Dispatch Details" // Or pull from meta if available
     });
 
-    return { success: true };
+    await transporter.sendMail({
+      from: `"AVIORÉ ARCHIVE" <${process.env.EMAIL_USER}>`,
+      to: [process.env.ADMIN_EMAIL!, flutterwaveData.customer.email],
+      subject: `[MANIFEST] ACQUISITION_CONFIRMED: ${flutterwaveData.tx_ref}`,
+      html: receiptHtml,
+      attachments: [
+        {
+          filename: `AVR_MANIFEST_${flutterwaveData.tx_ref}.pdf`,
+          content: pdfBuffer,
+        },
+      ],
+    });
+
+    return { success: true, orderId: order._id };
+
   } catch (error) {
-    console.error("Verification error:", error);
-    return { success: false, error: (error as Error).message || "System error during verification." };
+    console.error("VERIFICATION_SYSTEM_FAILURE:", error);
+    return { 
+      success: false, 
+      error: (error as Error).message || "Internal_Archive_Error" 
+    };
   }
 }
