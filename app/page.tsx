@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import AcquisitionTicker from "@/components/Acquisition";
 import { HolderGallery } from "@/components/HolderGallery";
 import { CommandFAQ } from "@/components/CommandFAQ";
+import ComingSoonDrop from "@/components/ComingSoonDrop";
 
 export default function Home() {
   return (
@@ -16,6 +17,8 @@ export default function Home() {
 
       {/* Hero Section */}
       <Hero />
+
+      <ComingSoonDrop />
 
       {/* Main Content Sections */}
       <div className="relative z-10">
