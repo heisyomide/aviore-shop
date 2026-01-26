@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "AVIORÉ // QUALITY DENIM",
+  title: "AVIORÈ // QUALITY DENIM",
   description: "Independent archival fashion platform. Curating 1-of-1 artifacts and high-quality denim specimens.",
   icons: {
     icon: "/favicon.ico", // Ensure you have a favicon in /public

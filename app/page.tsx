@@ -8,7 +8,7 @@ import AcquisitionTicker from "@/components/Acquisition";
 import { HolderGallery } from "@/components/HolderGallery";
 import { CommandFAQ } from "@/components/CommandFAQ";
 import ComingSoonDrop from "@/components/ComingSoonDrop";
-
+import {ArchivalCategories, FeaturedSpecimen , EditorialBridge  }from "@/components/HomeSection";
 export default function Home() {
   return (
     // Changed bg to white to make the ash-black Hero card "pop"
@@ -28,10 +28,14 @@ export default function Home() {
         {/* Content sections now sit on white background like the sample */}
         <section className="px-4 md:px-6">
           <ArchiveGrid />
+          <ArchivalCategories />
+          <FeaturedSpecimen />
+          
         </section>
 
         <AcquisitionTicker />
  <ComingSoonDrop />
+ <EditorialBridge />
         <section className="px-4 md:px-6">
           <HolderGallery />
         </section>

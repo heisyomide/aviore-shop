@@ -42,7 +42,7 @@ export function HolderGallery() {
             >
               <img 
                 src={img} 
-                alt="Avioré Holder" 
+                alt="Aviorè Holder" 
                 className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110" 
               />
               

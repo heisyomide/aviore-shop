@@ -40,7 +40,7 @@ export default function WaitlistEditorial() {
           <div className="lg:col-span-7 relative h-[500px] lg:h-auto overflow-hidden">
             <img 
               src="/first.PNG" 
-              alt="Avioré First Silhouette" 
+              alt="Aviorè First Silhouette" 
               className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[1200ms] ease-in-out"
             />
             {/* Visual Tag */}
@@ -56,7 +56,7 @@ export default function WaitlistEditorial() {
             <div className="space-y-8">
               <header className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-extrabold tracking-tighter leading-[1.1]">
-                  Avioré First Design <br /> 
+                  Aviorè First Design <br /> 
                   <span className="text-black/30 italic font-medium tracking-tight">Access No.01</span>
                 </h2>
                 <div className="h-1 w-12 bg-[#FFD747]" /> {/* Accent Line */}
@@ -127,7 +127,7 @@ export default function WaitlistEditorial() {
 
         {/* FOOTER SUB-TEXT */}
         <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 opacity-40">
-            <p className="text-[10px] font-black uppercase tracking-[0.4em]">Avioré // 2026</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.4em]">Aviorè // 2026</p>
             <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest">
                 <span className="cursor-help underline underline-offset-4">Privacy</span>
                 <span className="cursor-help underline underline-offset-4">Terms</span>
