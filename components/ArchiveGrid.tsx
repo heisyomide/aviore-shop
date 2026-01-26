@@ -1,136 +1,92 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
 import Link from "next/link";
 
-const SECTIONS = [
+const PRODUCTS = [
   {
     title: "Baggy_Silhouettes",
-    category: "Denim",
-    description: "Extra wide leg archival denim with heavy stacking.",
-    images: [
-      "/baggy/baggy 1.jpg",
-      "baggy/baggy 2.jpg",
-      "baggy/baggy 3.jpg"
-    ]
+    description: "Extra wide leg archival denim with heavy stacking and vintage wash.",
+    price: "$120",
+    image: "/baggy/baggy 1.jpg",
+    isNew: true
   },
   {
     title: "Boxy_Sweatshirts",
-    category: "Tops",
-    description: "Heavyweight sun-faded cotton and oversized fits.",
-    images: [
-      "sweatshirt/swaet1.jpg",
-      "https://images.unsplash.com/photo-1578587018452-892bacefd3f2?q=80",
-      "https://images.unsplash.com/photo-1523381210434-271e8be1f52b?q=80"
-    ]
+    description: "Heavyweight sun-faded cotton and oversized fits for daily utility.",
+    price: "$95",
+    image: "sweatshirt/swaet1.jpg",
+    isNew: true
   },
   {
     title: "Pencil_&_Slim",
-    category: "Denim",
-    description: "Tailored vintage cuts and stacked pencil fits.",
-    images: [
-      "baggy/slim1.jpg",
-      "baggy/slim2.jpg",
-      "https://images.unsplash.com/photo-1605518216938-7c31b7b14ad0?q=80"
-    ]
-  },
-  {
-    title: "Archival_Knickers",
-    category: "Shorts",
-    description: "Vintage three-quarter lengths and workwear shorts.",
-    images: [
-      "https://images.unsplash.com/photo-1591195853828-11db59a44f6b?q=80",
-      "baggy/short2.jpg",
-      "https://images.unsplash.com/photo-1565084888279-aca607ecce0c?q=80"
-    ]
-  },
-  {
-    title: "Essential_Round_Necks",
-    category: "Tops",
-    description: "Distressed graphic tees and authenticated relics.",
-    images: [
-      "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?q=80",
-      "sweatshirt/top2.jpg",
-      "sweatshirt/top3.jpg"
-    ]
+    description: "Tailored vintage cuts and stacked pencil fits with distressed hems.",
+    price: "$110",
+    image: "baggy/slim1.jpg",
+    isNew: true
   }
 ];
 
 export default function ArchiveGrid() {
   return (
-    <section className="bg-[#050505] py-20 px-4 md:px-12 border-t border-white/5">
-      <div className="max-w-350 mx-auto">
+    <section className="bg-white py-20 px-4 md:px-8">
+      <div className="max-w-7xl mx-auto">
         
-        {/* Mobile-First Header */}
-        <div className="mb-24 border-b border-white/5 pb-10">
-          <h2 className="text-5xl md:text-9xl font-light tracking-tighter text-white uppercase italic leading-none">
-            The <br /> <span className="ml-8 md:ml-24">Catalogue</span>
-          </h2>
-          <div className="flex justify-between items-center mt-6">
-            <p className="text-[8px] md:text-[10px] text-white/40 uppercase tracking-[0.4em] font-mono">
-              Nigeria Based 1-of-1 Curated fashion world
-            </p>
-            <span className="h-px w-12 bg-white/20"></span>
-          </div>
+        {/* HEADER: Scaled down to look "fit" and editorial */}
+        <div className="mb-14 space-y-3">
+          <h3 className="text-3xl md:text-4xl font-black uppercase tracking-tighter italic text-black">
+            New Drops
+          </h3>
+          <p className="text-[10px] text-black/40 font-bold uppercase tracking-[0.2em] max-w-md leading-relaxed">
+            Stand out with our latest collection—bold designs, premium fabrics, and street-ready fits.
+          </p>
         </div>
 
-        {/* Vertical Stacked Sections */}
-        <div className="space-y-32 md:space-y-60">
-          {SECTIONS.map((section, idx) => (
-            <div key={idx} className="flex flex-col gap-8">
+        {/* GRID: 3 columns, perfectly aligned spacing */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          {PRODUCTS.map((product, idx) => (
+            <Link key={idx} href="/shop" className="group block">
               
-              {/* Text Label - Always on top for Mobile */}
-              <div className="space-y-3">
-                <div className="flex items-center gap-4">
-                   <span className="text-[9px] text-white/20 font-mono">0{idx + 1}</span>
-                   <h3 className="text-3xl md:text-6xl font-light italic text-white uppercase tracking-tighter">
-                    {section.title}
-                  </h3>
+              {/* IMAGE CARD: Light Ash Grey (#F3F3F3) with heavy rounding */}
+              <div className="relative aspect-[4/5] bg-[#F3F3F3] rounded-[30px] md:rounded-[45px] overflow-hidden flex items-center justify-center p-10 transition-all duration-500 group-hover:bg-[#EAEAEA]">
+                
+                {/* NEW BADGE: Small and professional */}
+                {product.isNew && (
+                  <span className="absolute top-6 left-8 bg-black text-white text-[7px] font-black px-3 py-1.5 rounded-full uppercase tracking-widest z-10">
+                    New
+                  </span>
+                )}
+                
+                <img 
+                  src={product.image} 
+                  alt={product.title} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
+                />
+              </div>
+
+              {/* DETAILS: Perfectly fit under the card */}
+              <div className="mt-6 space-y-2 px-1">
+                <div className="flex justify-between items-start">
+                  <h4 className="text-[16px] font-black uppercase tracking-tighter italic text-black leading-none">
+                    {product.title}
+                  </h4>
+                  <span className="text-[13px] font-black italic text-black leading-none">
+                    {product.price}
+                  </span>
                 </div>
-                <p className="text-[10px] text-white/40 uppercase tracking-[0.2em] leading-relaxed max-w-sm">
-                  {section.description}
+                
+                <p className="text-[10px] text-black/40 font-bold uppercase leading-relaxed tracking-tight max-w-[90%]">
+                  {product.description}
                 </p>
               </div>
-
-              {/* Image Cluster - Natural Colors, No Hover required */}
-              <Link 
-                href={`/shop?category=${section.category}`} 
-                className="grid grid-cols-2 md:grid-cols-3 gap-3"
-              >
-                {section.images.map((img: string, i: number) => (
-                  <div 
-                    key={i}
-                    className={`overflow-hidden bg-[#111] aspect-3/4 border border-white/5 ${
-                      i === 2 ? "hidden md:block" : "" // Hide 3rd image on small mobile to keep thumbnails large
-                    }`}
-                  >
-                    <img 
-                      src={img} 
-                      alt={section.title} 
-                      className="w-full h-full object-cover" 
-                    />
-                  </div>
-                ))}
-              </Link>
-
-              {/* Action Button */}
-              <div>
-                <Link 
-                  href={`/shop?category=${section.category}`}
-                  className="inline-block text-[9px] uppercase tracking-[0.4em] text-white border border-white/20 px-8 py-3 hover:bg-white hover:text-black transition-all"
-                >
-                  Explore_{section.category}
-                </Link>
-              </div>
-            </div>
+            </Link>
           ))}
         </div>
 
-        {/* Footer Entry */}
-        <div className="mt-40 text-center border-t border-white/5 pt-20">
-          <Link href="/shop" className="text-3xl md:text-6xl uppercase italic tracking-tighter text-white/80 hover:text-white transition-all">
-            Full_Archive_Access —&gt;
-          </Link>
+        {/* FOOTER ACTION: Minimal text link */}
+        <div className="mt-20 border-t border-gray-100 pt-10 text-center">
+            <Link href="/shop" className="text-[11px] font-black uppercase tracking-[0.5em] text-black/30 hover:text-black transition-colors">
+                View_All_Archives —&gt;
+            </Link>
         </div>
       </div>
     </section>

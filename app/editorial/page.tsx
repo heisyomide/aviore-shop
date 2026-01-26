@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { ArrowRight } from "lucide-react";
 
 const STORIES = [
   {
@@ -34,34 +35,41 @@ const STORIES = [
 
 export default function EditorialPage() {
   return (
-    <div className="bg-[#0a0a0a] min-h-screen text-white selection:bg-white selection:text-black">
+    <div className="!bg-white min-h-screen text-black selection:bg-[#FFD747] selection:text-black">
       <Navbar />
       
-      <main className="pt-40 pb-20 px-6 md:px-12">
+      <main className="pt-32 md:pt-48 pb-20 px-6 md:px-12 relative overflow-hidden">
+        {/* DESIGN LAYER: Grid & Noise */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        
         {/* Editorial Header */}
-        <header className="max-w-7xl mx-auto mb-32">
+        <header className="max-w-7xl mx-auto mb-32 relative z-10">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           >
-            <h1 className="text-[15vw] md:text-[10vw] font-bold tracking-tighter uppercase italic leading-[0.8] mb-8">
+            <div className="flex items-center gap-3 mb-6">
+               <div className="w-2.5 h-2.5 rounded-full bg-[#FFD747] animate-pulse" />
+               <span className="text-[10px] font-black text-black/30 uppercase tracking-[0.4em]">Editorial_Bureau</span>
+            </div>
+            <h1 className="text-[18vw] md:text-[12vw] font-black tracking-[calc(-0.06em)] uppercase italic leading-[0.75] mb-12">
               Edits.
             </h1>
-            <div className="flex flex-col md:flex-row justify-between items-end border-t border-white/10 pt-8 gap-6">
-              <p className="text-[10px] tracking-[0.4em] uppercase text-white/40 font-mono">
+            <div className="flex flex-col md:flex-row justify-between items-end border-t border-black/5 pt-10 gap-8">
+              <p className="text-[10px] font-black tracking-[0.4em] uppercase text-black/20">
                 Visual_Essays // Curated_Narratives
               </p>
-              <p className="max-w-xs text-[11px] uppercase tracking-widest leading-relaxed text-white/60">
-                Exploring the intersection of vintage textiles and modern urban environments in Nigeria.
+              <p className="max-w-sm text-[12px] font-bold uppercase tracking-tight leading-relaxed text-black/50 italic">
+                Exploring the intersection of vintage textiles and modern urban environments in Nigeria through a clinical lens.
               </p>
             </div>
           </motion.div>
         </header>
 
         {/* Stories Grid */}
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-24 md:gap-y-40">
             {STORIES.map((story, idx) => (
               <motion.div
                 key={story.id}
@@ -72,31 +80,31 @@ export default function EditorialPage() {
                 className={`${story.size === 'large' ? 'md:col-span-2' : 'md:col-span-1'} group cursor-pointer`}
               >
                 <Link href={`/editorial/${story.id}`}>
-                  <div className="relative overflow-hidden bg-zinc-900 aspect-video md:aspect-auto md:h-[70vh] mb-8">
+                  <div className="relative overflow-hidden bg-[#F3F3F3] rounded-[40px] md:rounded-[60px] aspect-video md:aspect-auto md:h-[75vh] mb-10 border border-black/5">
                     <img 
                       src={story.img} 
-                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-2000 ease-out opacity-60 group-hover:opacity-100"
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-[2.5s] ease-out opacity-80 group-hover:opacity-100"
                       alt={story.title}
                     />
-                    <div className="absolute top-8 left-8">
-                      <span className="text-[10px] font-mono tracking-[0.3em] uppercase bg-black/40 backdrop-blur-md px-3 py-1 border border-white/10">
+                    <div className="absolute top-10 left-10">
+                      <span className="text-[9px] font-black tracking-[0.2em] uppercase bg-white/90 backdrop-blur-md px-5 py-2 rounded-full border border-black/5 shadow-sm">
                         {story.date}
                       </span>
                     </div>
                   </div>
                   
-                  <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-4">
+                  <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 px-4">
                     <div>
-                      <p className="text-[9px] font-mono text-white/30 uppercase tracking-[0.4em] mb-2">
+                      <p className="text-[9px] font-black text-[#FFD747] uppercase tracking-[0.4em] mb-3">
                         {story.subtitle}
                       </p>
-                      <h2 className="text-4xl md:text-6xl font-light uppercase tracking-tighter italic">
+                      <h2 className="text-5xl md:text-8xl font-black uppercase tracking-tighter italic leading-none text-black">
                         {story.title}
                       </h2>
                     </div>
-                    <span className="text-[10px] uppercase tracking-[0.5em] border-b border-white/20 pb-1 group-hover:border-white transition-colors">
-                      Read_Entry
-                    </span>
+                    <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-black/30 group-hover:text-black transition-colors pb-2 border-b-2 border-transparent group-hover:border-[#FFD747]">
+                      Read_Entry <ArrowRight size={14} strokeWidth={3} />
+                    </div>
                   </div>
                 </Link>
               </motion.div>
@@ -104,19 +112,22 @@ export default function EditorialPage() {
           </div>
         </div>
 
-        {/* Newsletter/Subscription for Drop Alerts */}
-        <section className="max-w-7xl mx-auto mt-60 py-40 border-y border-white/5 text-center">
-          <h3 className="text-[10px] uppercase tracking-[0.6em] text-white/30 mb-12">Join_the_Transmission</h3>
-          <p className="text-2xl md:text-4xl font-serif italic mb-12 max-w-2xl mx-auto">
-            Get notified the moment a new archive is declassified.
+        {/* Newsletter/Transmission Section */}
+        <section className="max-w-5xl mx-auto mt-60 mb-20 p-12 md:p-24 bg-[#F9F9F9] rounded-[50px] border border-black/5 text-center relative overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-12 bg-[#FFD747]" />
+          
+          <h3 className="text-[10px] font-black uppercase tracking-[0.6em] text-black/30 mb-10 mt-6">Join_the_Transmission</h3>
+          <p className="text-3xl md:text-5xl font-black italic mb-14 tracking-tighter uppercase leading-tight">
+            Get notified the moment a new <br className="hidden md:block"/> archive is declassified.
           </p>
-          <div className="flex flex-col md:flex-row justify-center items-center gap-4 max-w-md mx-auto">
+          
+          <div className="flex flex-col md:flex-row justify-center items-center gap-6 max-w-lg mx-auto">
             <input 
               type="email" 
               placeholder="ENCRYPTED_EMAIL@HOST.COM" 
-              className="w-full bg-transparent border-b border-white/20 py-4 text-[10px] tracking-widest outline-none focus:border-white transition-colors text-center md:text-left"
+              className="w-full bg-white rounded-full border border-black/5 py-5 px-8 text-[11px] font-black tracking-widest outline-none focus:ring-2 focus:ring-[#FFD747] transition-all uppercase"
             />
-            <button className="w-full md:w-auto px-12 py-4 bg-white text-black text-[10px] font-bold uppercase tracking-widest hover:bg-zinc-200 transition-colors">
+            <button className="w-full md:w-auto px-10 py-5 bg-black text-white rounded-full text-[11px] font-black uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/10">
               Subscribe
             </button>
           </div>

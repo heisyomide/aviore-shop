@@ -1,104 +1,65 @@
 "use client";
 import React from "react";
-import { motion } from "framer-motion";
-import Link from "next/link"; // Correct import for navigation
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 
 export default function Hero() {
   return (
-    <section className="relative h-screen w-full bg-[#0a0a0a] flex flex-col justify-between p-6 md:p-10 overflow-hidden">
-      
-      {/* 1. ANIMATED BACKGROUND */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <motion.img 
-          initial={{ scale: 1.2, opacity: 0 }}
-          animate={{ 
-            scale: 1, 
-            opacity: 1,
-            transition: { 
-              opacity: { duration: 2 },
-              scale: { duration: 20, ease: "linear", repeat: Infinity, repeatType: "reverse" }
-            }
-          }}
-          src="https://images.unsplash.com/photo-1490481651871-ab68de25d43d?q=80&w=2070&auto=format&fit=crop" 
-          className="object-cover w-full h-full brightness-[0.4]"
-          alt="Hero Focus"
-        />
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 3 }}
-          className="absolute inset-0 bg-linear-to-t from-[#0a0a0a] via-transparent to-transparent opacity-90"
-        />
-      </div>
-
-      {/* 2. TOP BRANDING SPACE */}
-      <div className="relative z-20 flex justify-between items-start">
-        {/* Placeholder for potential logo or top nav elements */}
-        <div />
-        <div />
-      </div>
-
-      {/* 3. BOTTOM UTILITY */}
-      <div className="relative z-20 flex flex-col md:flex-row justify-between items-end gap-10">
+    <section className="w-full bg-white px-4 md:px-8 py-2">
+      {/* THE CONTAINER: Ash-black, scaled to fit the viewport comfortably */}
+      <div className="relative w-full h-[70vh] md:h-[80vh] bg-[#1a1a1a] rounded-[35px] md:rounded-[45px] overflow-hidden shadow-xl">
         
-        <div className="max-w-md">
-          <div className="overflow-hidden mb-4">
-            <motion.h2 
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-              className="text-5xl md:text-7xl font-light tracking-tighter text-white uppercase"
-            >
-              New <span className="italic font-serif text-white/90">Arrivals.</span>
-            </motion.h2>
+        {/* BACKGROUND IMAGE */}
+        <img 
+          src="https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=2000&auto=format&fit=crop" 
+          alt="Hero" 
+          className="absolute inset-0 w-full h-full object-cover opacity-45 grayscale"
+        />
+
+        {/* CONTENT OVERLAY */}
+        <div className="absolute inset-0 flex flex-col justify-between p-8 md:p-14">
+          
+          {/* TEXT AREA: Compact editorial scaling */}
+          <div className="max-w-xl mt-6 space-y-4">
+            <h2 className="text-4xl md:text-6xl font-black text-white uppercase tracking-tighter leading-[0.95]">
+              Community-Driven <br /> Culture
+            </h2>
+            
+            <p className="text-white/40 text-[10px] md:text-xs max-w-xs font-medium leading-relaxed uppercase tracking-tight">
+              More than just a brand we're a movement—connecting creatives, 
+              skaters, and trendsetters who define the streets.
+            </p>
+            
+            {/* REDIRECTING SHOP NOW BUTTON: Wrapped in Link */}
+            <Link href="/shop" className="inline-block">
+              <button className="bg-white text-black pl-5 pr-1.5 py-1.5 rounded-full flex items-center gap-4 text-[9px] font-black uppercase tracking-[0.15em] hover:scale-105 transition-all mt-2 group">
+                Shop Now 
+                <div className="bg-black text-white rounded-full p-2 flex items-center justify-center group-hover:translate-x-0.5 transition-transform">
+                  <ArrowRight size={12} strokeWidth={3} />
+                </div>
+              </button>
+            </Link>
           </div>
 
-          <motion.div 
-            initial={{ scaleX: 0 }}
-            animate={{ scaleX: 1 }}
-            transition={{ duration: 1.5, delay: 1.2, ease: "easeInOut" }}
-            className="h-px w-full bg-linear-to-r from-white/40 to-transparent mb-6 origin-left" 
-          />
-
-          <motion.p 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5, duration: 1 }}
-            className="text-[11px] text-white/50 uppercase tracking-[0.2em] leading-relaxed"
-          >
-            A curated selection of archival garments sourced from private collections worldwide.
-          </motion.p>
+          {/* THE 01-05 STATUS BAR: Exact fit from sample */}
+          <div className="w-full border-t border-white/10 pt-6 grid grid-cols-2 md:grid-cols-5 gap-4">
+            {[
+              { id: "01", text: "Limited Drops", sub: "Maximum impact" },
+              { id: "02", text: "Limited Drops", sub: "Maximum impact" },
+              { id: "03", text: "Limited Drops", sub: "Maximum impact" },
+              { id: "04", text: "Limited Drops", sub: "Maximum impact" },
+              { id: "05", text: "Limited Drops", sub: "Maximum impact" }
+            ].map((item) => (
+              <div key={item.id} className="flex flex-col gap-1">
+                <span className="text-white text-[10px] font-black italic">{item.id}</span>
+                <p className="text-white/30 text-[8px] uppercase font-bold tracking-[0.1em] leading-none">
+                  {item.text} <span className="block mt-0.5 font-normal opacity-40 lowercase italic">{item.sub}</span>
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* EXPLORE REDIRECT */}
-        <Link href="/shop">
-          <motion.button
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1.8 }}
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="relative px-12 py-5 border bg-white/20 border-white/20 text-white text-[10px] uppercase tracking-[0.5em] group overflow-hidden"
-          >
-            <span className="relative z-10  group-hover:text-black transition-colors duration-500">
-              Explore
-            </span>
-            <motion.div 
-              className="absolute inset-0 bg-white translate-y-full group-hover:translate-y-0 transition-transform duration-500 ease-[0.16, 1, 0.3, 1]" 
-            />
-          </motion.button>
-        </Link>
       </div>
-
-      {/* 4. MOUSE-TRACKING DECORATION */}
-      <motion.div 
-        animate={{ y: [0, -10, 0] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute right-10 top-1/2 -rotate-90 origin-center text-[9px] font-mono tracking-[1em] text-white/10 uppercase hidden md:block"
-      >
-        Scroll_to_Initialize
-      </motion.div>
-
     </section>
   );
 }

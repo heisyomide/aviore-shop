@@ -11,23 +11,47 @@ const GALLERY_IMAGES = [
 
 export function HolderGallery() {
   return (
-    <section className="bg-black py-40 px-4 border-b border-white/5">
-      <div className="max-w-350 mx-auto">
-        <div className="mb-20 space-y-4">
-          <p className="text-[9px] text-green-500 font-mono tracking-[0.5em] uppercase">Status: In_The_Wild</p>
-          <h2 className="text-4xl md:text-7xl text-white uppercase italic tracking-tighter">Recognized_Holders</h2>
+    <section className="bg-white py-24 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto">
+        
+        {/* SECTION HEADER: Editorial & Compact */}
+        <div className="mb-16 space-y-3">
+          <div className="flex items-center gap-3">
+            <span className="w-2 h-2 rounded-full bg-[#FFD747] animate-pulse" />
+            <p className="text-[10px] text-black/40 font-bold tracking-[0.3em] uppercase">
+              In_The_Wild
+            </p>
+          </div>
+          <h2 className="text-3xl md:text-5xl text-black font-black uppercase italic tracking-tighter leading-none">
+            Recognized_Holders
+          </h2>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* STAGGERED GRID: Making them "stand" perfectly like an editorial spread */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
           {GALLERY_IMAGES.map((img, i) => (
             <motion.div 
               key={i}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className={`bg-[#111] aspect-2/3 overflow-hidden border border-white/5 ${i % 2 !== 0 ? "mt-12" : ""}`}
+              transition={{ delay: i * 0.1, duration: 0.8 }}
+              className={`relative overflow-hidden rounded-[25px] md:rounded-[40px] aspect-[2/3] bg-[#F3F3F3] shadow-sm
+                ${i % 2 !== 0 ? "md:mt-16" : ""} // This creates the staggered "stair" look
+              `}
             >
-              <img src={img} alt="Holder" className="w-full h-full object-cover" />
+              <img 
+                src={img} 
+                alt="Avioré Holder" 
+                className="w-full h-full object-cover transition-transform duration-1000 hover:scale-110" 
+              />
+              
+              {/* Subtle Overlay Tag */}
+              <div className="absolute bottom-4 left-4">
+                <span className="text-[8px] font-black text-white/70 uppercase tracking-widest bg-black/20 backdrop-blur-md px-3 py-1 rounded-full">
+                  Archive_0{i + 1}
+                </span>
+              </div>
             </motion.div>
           ))}
         </div>

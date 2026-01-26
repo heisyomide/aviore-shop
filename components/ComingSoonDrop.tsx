@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight, Mail, Shield, Camera, Loader2 } from "lucide-react";
+import { ArrowRight, Mail, Shield, Camera, Loader2, CheckCircle2 } from "lucide-react";
 
-export default function WaitlistNoir() {
+export default function WaitlistEditorial() {
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
 
@@ -25,104 +25,115 @@ export default function WaitlistNoir() {
       }
     } catch (err) {
       setStatus("error");
-      setTimeout(() => setStatus("idle"), 3000); // Reset after 3s on error
+      setTimeout(() => setStatus("idle"), 3000);
     }
   };
 
   return (
-    <section className="w-full bg-black text-white py-32 px-6 md:px-12 border-t border-white/5 font-mono overflow-hidden">
-      <div className="max-w-7xl mx-auto flex flex-col lg:grid lg:grid-cols-12 gap-16 items-center">
+    <section className="w-full bg-[#F9F9F9] text-black py-24 px-6 md:px-12 font-sans selection:bg-[#FFD747]">
+      <div className="max-w-7xl mx-auto">
         
-        {/* --- PRODUCT VISUAL --- */}
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.98 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          className="lg:col-span-7 w-full aspect-[4/5] bg-zinc-900 relative overflow-hidden group border border-white/10"
-        >
-          <img 
-            src="/first.PNG" 
-            alt="Avioré First Silhouette" 
-            className="w-full h-full object-cover grayscale transition-all duration-[1500ms] group-hover:grayscale-0"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
-          <div className="absolute bottom-8 left-8 flex items-center gap-3">
-             <Camera size={14} className="text-zinc-500" />
-             <span className="text-[9px] uppercase tracking-[0.4em] font-bold text-zinc-400">Archive_Visual_001</span>
-          </div>
-        </motion.div>
-
-        {/* --- CONTENT & REGISTRATION --- */}
-        <div className="lg:col-span-5 w-full space-y-12">
-          <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 border border-white/20 rounded-full">
-              <span className="w-2 h-2 bg-red-600 rounded-full animate-pulse" />
-              <span className="text-[10px] uppercase tracking-[0.4em] font-bold">Priority_Access</span>
+        {/* MAIN CONTAINER WITH ROUNDED CORNERS (Inspired by RAWBLOX) */}
+        <div className="bg-white rounded-[40px] shadow-sm border border-black/5 overflow-hidden flex flex-col lg:grid lg:grid-cols-12">
+          
+          {/* --- LEFT SIDE: IMAGE AREA --- */}
+          <div className="lg:col-span-7 relative h-[500px] lg:h-auto overflow-hidden">
+            <img 
+              src="/first.PNG" 
+              alt="Avioré First Silhouette" 
+              className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-[1200ms] ease-in-out"
+            />
+            {/* Visual Tag */}
+            <div className="absolute top-8 left-8 bg-white/90 backdrop-blur-md px-4 py-2 rounded-full border border-black/5">
+                <p className="text-[10px] font-bold uppercase tracking-widest flex items-center gap-2">
+                    <Camera size={12} /> Pre_Release_Visual
+                </p>
             </div>
-            
-            <h2 className="text-6xl md:text-7xl font-black italic uppercase tracking-tighter leading-none">
-              Aviorè Genesis <br /> <span className="text-zinc-600">No.01</span>
-            </h2>
-            
-            <p className="text-[12px] text-zinc-400 uppercase leading-relaxed max-w-sm font-bold tracking-wide italic">
-              Built with precision in Nigeria. Registration grants a 24-hour private shopping window before global release.
-            </p>
           </div>
 
-          <div className="bg-[#0A0A0A] p-8 md:p-12 border border-white/10 relative shadow-2xl">
-            <AnimatePresence mode="wait">
-              {status !== "success" ? (
-                <motion.form 
-                  key="form"
-                  exit={{ opacity: 0, y: -20 }}
-                  onSubmit={handleWaitlist} 
-                  className="space-y-10"
-                >
-                  <div className="group relative">
-                    <div className="flex items-center gap-4 border-b border-white/20 pb-4 group-focus-within:border-white transition-all">
-                      <Mail className="text-zinc-600" size={18} />
-                      <input 
-                        type="email" 
-                        required
-                        placeholder="ACCESS@DOMAIN.COM"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        className="w-full bg-transparent text-[13px] uppercase font-black outline-none placeholder:text-zinc-800"
-                      />
-                    </div>
-                  </div>
-                  
-                  <button 
-                    disabled={status === "loading"}
-                    className="w-full py-6 bg-white text-black text-[11px] uppercase tracking-[0.8em] font-black hover:bg-zinc-200 transition-all flex items-center justify-center gap-4 group disabled:opacity-50"
-                  >
-                    {status === "loading" ? <Loader2 className="animate-spin" size={16} /> : "Update Me"}
-                    {status !== "loading" && <ArrowRight size={16} className="group-hover:translate-x-3 transition-transform" />}
-                  </button>
+          {/* --- RIGHT SIDE: FORM AREA --- */}
+          <div className="lg:col-span-5 p-10 md:p-16 flex flex-col justify-center bg-white">
+            <div className="space-y-8">
+              <header className="space-y-4">
+                <h2 className="text-4xl md:text-5xl font-extrabold tracking-tighter leading-[1.1]">
+                  Avioré First Design <br /> 
+                  <span className="text-black/30 italic font-medium tracking-tight">Access No.01</span>
+                </h2>
+                <div className="h-1 w-12 bg-[#FFD747]" /> {/* Accent Line */}
+                <p className="text-sm text-black/60 font-medium leading-relaxed max-w-sm">
+                  We are opening the archive for a limited group. Register below to receive 24-hour priority access before the public release.
+                </p>
+              </header>
 
-                  <p className="text-[8px] text-zinc-600 uppercase tracking-widest text-center flex items-center justify-center gap-2">
-                    <Shield size={10} /> {status === "error" ? "Transmission_Failed" : "Data_Encrypted_By_Archive"}
-                  </p>
-                </motion.form>
-              ) : (
-                <motion.div 
-                  key="success"
-                  initial={{ opacity: 0, y: 20 }} 
-                  animate={{ opacity: 1, y: 0 }} 
-                  className="text-center py-6 space-y-4"
-                >
-                  <div className="w-12 h-12 bg-white text-black rounded-full flex items-center justify-center mx-auto mb-4">
-                    <ArrowRight size={20} className="-rotate-45" />
-                  </div>
-                  <h4 className="text-[14px] font-black uppercase tracking-[0.4em]">Index_Complete</h4>
-                  <p className="text-[9px] text-zinc-500 uppercase tracking-widest leading-relaxed">
-                    Identity verified. Awaiting <br /> launch instructions.
-                  </p>
-                </motion.div>
-              )}
-            </AnimatePresence>
+              <AnimatePresence mode="wait">
+                {status !== "success" ? (
+                  <motion.form 
+                    key="form"
+                    exit={{ opacity: 0, x: 20 }}
+                    onSubmit={handleWaitlist}
+                    className="space-y-6"
+                  >
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-bold uppercase tracking-widest text-black/40 ml-1">Email Address</label>
+                        <div className="flex items-center gap-4 bg-[#F4F4F4] px-6 py-5 rounded-2xl border border-transparent focus-within:border-black/10 transition-all">
+                        <Mail className="text-black/30" size={18} />
+                        <input 
+                            type="email" 
+                            required
+                            placeholder="Enter your email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="w-full bg-transparent text-sm font-bold outline-none placeholder:text-black/20"
+                        />
+                        </div>
+                    </div>
+
+                    {/* BOLD YELLOW BUTTON (Inspired by Interior Designer Poster) */}
+                    <button 
+                      disabled={status === "loading"}
+                      className="w-full py-5 bg-[#FFD747] text-black text-xs font-black uppercase tracking-[0.2em] rounded-2xl shadow-[0_10px_20px_-10px_rgba(255,215,71,0.5)] hover:shadow-[0_15px_30px_-10px_rgba(255,215,71,0.6)] hover:-translate-y-1 transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                    >
+                      {status === "loading" ? <Loader2 className="animate-spin" size={18} /> : "Update Me"}
+                      {status !== "loading" && <ArrowRight size={18} />}
+                    </button>
+
+                    <div className="flex items-center justify-center gap-2 opacity-30">
+                        <Shield size={10} />
+                        <span className="text-[9px] font-bold uppercase tracking-widest">
+                           {status === "error" ? "Transmission Failed" : "Secure Archive Protocol"}
+                        </span>
+                    </div>
+                  </motion.form>
+                ) : (
+                  <motion.div 
+                    key="success"
+                    initial={{ opacity: 0, scale: 0.9 }} 
+                    animate={{ opacity: 1, scale: 1 }} 
+                    className="text-center py-10 space-y-4"
+                  >
+                    <div className="w-16 h-16 bg-[#FFD747] text-black rounded-full flex items-center justify-center mx-auto mb-4">
+                      <CheckCircle2 size={32} />
+                    </div>
+                    <h4 className="text-xl font-extrabold tracking-tight italic">Identity Verified</h4>
+                    <p className="text-xs text-black/50 font-bold uppercase tracking-widest leading-relaxed">
+                        You have been added <br /> to the Genesis list.
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
+        {/* FOOTER SUB-TEXT */}
+        <div className="mt-12 flex flex-col md:flex-row justify-between items-center gap-6 opacity-40">
+            <p className="text-[10px] font-black uppercase tracking-[0.4em]">Avioré // 2026</p>
+            <div className="flex gap-8 text-[10px] font-black uppercase tracking-widest">
+                <span className="cursor-help underline underline-offset-4">Privacy</span>
+                <span className="cursor-help underline underline-offset-4">Terms</span>
+                <span className="cursor-help underline underline-offset-4">Instagram</span>
+            </div>
+        </div>
       </div>
     </section>
   );

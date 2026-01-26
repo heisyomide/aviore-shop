@@ -2,7 +2,8 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useArchive } from "@/context/ArchiveContext";
-import { ArrowLeft, ShieldCheck, Loader2, AlertCircle } from "lucide-react";
+import { ArrowLeft, ShieldCheck, Loader2, CreditCard } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function CheckoutPage() {
   const { archive, archiveTotal } = useArchive();
@@ -13,30 +14,24 @@ export default function CheckoutPage() {
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const handlePaymentRedirect = async () => {
-    // 1. Basic Identity Validation
     if (!email || !firstName || !lastName || !phoneNumber) {
       return alert("IDENTITY_REQUIRED: Please provide name, email, and contact number.");
     }
     
     setLoading(true);
-
     try {
-      // 2. CRITICAL: PRE-PAYMENT AVAILABILITY CHECK
-      // We check the DB one last time before taking money
       const checkRes = await fetch("/api/checkout/validate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ items: archive.map((i: { id: any; }) => i.id) }),
+        body: JSON.stringify({ items: archive.map((i: any) => i.id) }),
       });
 
       const checkData = await checkRes.json();
-
       if (!checkData.available) {
         setLoading(false);
-        return alert(`ARCHIVE_CONFLICT: The item "${checkData.unavailableItem}" was just acquired by someone else. Your vault has been updated.`);
+        return alert(`ARCHIVE_CONFLICT: The item "${checkData.unavailableItem}" was just acquired.`);
       }
 
-      // 3. INITIALIZE ACQUISITION (PAYMENT)
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -45,8 +40,7 @@ export default function CheckoutPage() {
           email: email,
           name: `${firstName} ${lastName}`,
           phone: phoneNumber,
-          // Send IDs so the backend knows which items to mark as SOLD later
-          itemIds: archive.map(i => i.id) 
+          itemIds: archive.map((i: any) => i.id) 
         }),
       });
 
@@ -65,83 +59,93 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="bg-[#0a0a0a] min-h-screen text-white font-mono selection:bg-white selection:text-black">
-      <main className="max-w-350 mx-auto grid grid-cols-1 lg:grid-cols-2 min-h-screen">
+    <div className="bg-white min-h-screen text-black selection:bg-[#FFD747] selection:text-black">
+      <main className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 min-h-screen gap-0">
         
         {/* LEFT SIDE: Identity Form */}
-        <div className="p-8 md:p-16 border-r border-white/5">
-          <Link href="/shop" className="group flex items-center gap-2 text-[10px] uppercase tracking-[0.4em] text-white/40 hover:text-white transition-all mb-20">
-            <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform" />
-            Return to Catalogue
+        <div className="lg:col-span-7 p-6 md:p-16 pt-32">
+          <Link href="/shop" className="group flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.3em] text-black/40 hover:text-black transition-all mb-16">
+            <ArrowLeft size={12} strokeWidth={3} className="group-hover:-translate-x-1 transition-transform" />
+            Return_to_Catalogue
           </Link>
 
-          <header className="mb-12">
-            <h1 className="text-4xl font-light tracking-tighter uppercase italic mb-2">Acquisition</h1>
-            <p className="text-[10px] tracking-[0.2em] text-white/30 uppercase">Identity & Contact</p>
+          <header className="mb-14 space-y-2">
+            <div className="flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-[#FFD747] animate-pulse" />
+              <span className="text-[10px] font-black text-black/30 uppercase tracking-[0.3em]">Logistics_Portal</span>
+            </div>
+            <h1 className="text-5xl md:text-6xl font-black tracking-tighter uppercase italic leading-none">Acquisition</h1>
           </header>
 
-          <div className="space-y-12">
-            <section className="space-y-6">
-              <CheckoutInput label="Email Address" value={email} onChange={setEmail} type="email" />
+          <div className="space-y-12 max-w-2xl">
+            <section className="space-y-8">
+              <CheckoutInput label="Email_Address" value={email} onChange={setEmail} type="email" />
               
-              <div className="grid grid-cols-2 gap-8">
-                <CheckoutInput label="First Name" value={firstName} onChange={setFirstName} />
-                <CheckoutInput label="Last Name" value={lastName} onChange={setLastName} />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <CheckoutInput label="First_Name" value={firstName} onChange={setFirstName} />
+                <CheckoutInput label="Last_Name" value={lastName} onChange={setLastName} />
               </div>
 
-              <CheckoutInput label="Contact Number" value={phoneNumber} onChange={setPhoneNumber} type="tel" placeholder="+234..." />
-              
-              <div className="pt-4">
-                <p className="text-[8px] text-white/20 uppercase tracking-widest mb-4 italic">Note: Verification required for delivery logistics.</p>
-              </div>
+              <CheckoutInput label="Contact_Number" value={phoneNumber} onChange={setPhoneNumber} type="tel" placeholder="+234..." />
             </section>
 
             <button 
               type="button" 
               onClick={handlePaymentRedirect}
               disabled={loading || archive.length === 0}
-              className="w-full bg-white text-black py-6 text-[10px] uppercase tracking-[0.8em] font-bold hover:invert transition-all flex justify-center items-center gap-3"
+              className="w-full bg-black text-white py-6 rounded-full text-[11px] font-black uppercase tracking-[0.4em] transition-all hover:scale-[1.01] active:scale-[0.98] shadow-2xl flex justify-center items-center gap-4"
             >
-              {loading ? <Loader2 className="animate-spin" size={16} /> : "Initialize_Acquisition"}
+              {loading ? <Loader2 className="animate-spin" size={16} /> : (
+                <>Initialize_Payment <CreditCard size={14} /></>
+              )}
             </button>
+            
+            <p className="text-[9px] text-black/20 uppercase font-black tracking-widest text-center">
+              Secured_By_Acquisition_Protocol_V4.0
+            </p>
           </div>
         </div>
 
-        {/* RIGHT SIDE: Vault Summary */}
-        <div className="bg-[#0d0d0d] p-8 md:p-16">
-          <h2 className="text-[10px] uppercase tracking-[0.5em] text-white/30 mb-12">Vault_Summary</h2>
+        {/* RIGHT SIDE: Vault Summary (The "Fit" Part) */}
+        <div className="lg:col-span-5 bg-[#F9F9F9] p-6 md:p-16 pt-32 border-l border-gray-100 relative">
+          {/* Background Design */}
+          <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
           
-          <div className="space-y-8 mb-12 max-h-[50vh] overflow-y-auto scrollbar-hide">
-            {archive.length === 0 ? (
-              <p className="text-[10px] uppercase tracking-widest text-white/20">Archive_Empty</p>
-            ) : (
-              archive.map((item) => (
-                <div key={item.id} className="flex gap-6 items-center border-b border-white/5 pb-6">
-                  <div className="w-20 h-24 bg-[#1a1a1a] shrink-0 grayscale">
-                    <img src={item.img} className="w-full h-full object-cover" alt={item.name} />
+          <div className="relative z-10">
+            <h2 className="text-[10px] font-black uppercase tracking-[0.5em] text-black/30 mb-12 border-l-2 border-[#FFD747] pl-3">Vault_Summary</h2>
+            
+            <div className="space-y-6 mb-12 max-h-[60vh] overflow-y-auto pr-2 no-scrollbar">
+              {archive.length === 0 ? (
+                <p className="text-[10px] font-black uppercase tracking-widest text-black/20">Archive_Empty</p>
+              ) : (
+                archive.map((item: any) => (
+                  <div key={item.id} className="flex gap-6 items-center bg-white p-4 rounded-[25px] border border-black/5 shadow-sm">
+                    <div className="w-20 h-24 bg-[#F3F3F3] rounded-2xl overflow-hidden shrink-0">
+                      <img src={item.img} className="w-full h-full object-cover" alt={item.name} />
+                    </div>
+                    <div className="flex-1">
+                      <p className="text-[8px] font-black text-black/30 uppercase tracking-widest">{item.brand}</p>
+                      <h3 className="text-[11px] font-black uppercase tracking-tighter italic text-black leading-tight">{item.name}</h3>
+                      <p className="text-[9px] text-[#FFD747] font-black mt-1 uppercase tracking-tighter underline underline-offset-2">Verified_Specimen</p>
+                    </div>
+                    <span className="text-[13px] font-black italic text-black">₦{item.price.toLocaleString()}</span>
                   </div>
-                  <div className="flex-1">
-                    <p className="text-[8px] font-mono text-white/30 uppercase tracking-widest">{item.brand}</p>
-                    <h3 className="text-[11px] uppercase tracking-[0.2em] text-white">{item.name}</h3>
-                    <p className="text-[9px] text-green-500/50 mt-1 uppercase">Ready for Transfer</p>
-                  </div>
-                  <span className="text-sm font-serif italic text-white/80 font-bold">₦{item.price.toLocaleString()}</span>
-                </div>
-              ))
-            )}
-          </div>
-
-          <div className="border-t border-white/5 pt-8">
-            <div className="flex justify-between items-baseline mb-12">
-              <span className="text-[10px] uppercase tracking-[0.4em] text-white/40 font-mono">Total Valuation</span>
-              <span className="text-3xl font-serif italic text-white font-bold">₦{archiveTotal.toLocaleString()}</span>
+                ))
+              )}
             </div>
 
-            <div className="p-6 border border-white/5 flex items-center gap-4 bg-white/2">
-              <ShieldCheck size={20} className="text-white/20" />
-              <p className="text-[8px] uppercase tracking-[0.2em] text-white/20 leading-relaxed font-mono">
-                Acquisition verified via encrypted gateway. Contact +234 for delivery status.
-              </p>
+            <div className="pt-8 border-t border-black/5">
+              <div className="flex justify-between items-baseline mb-12 px-2">
+                <span className="text-[10px] font-black uppercase tracking-[0.4em] text-black/30">Total Valuation</span>
+                <span className="text-4xl font-black italic text-black tracking-tighter">₦{archiveTotal.toLocaleString()}</span>
+              </div>
+
+              <div className="p-6 rounded-3xl bg-white border border-black/5 flex items-start gap-4 shadow-sm">
+                <ShieldCheck size={20} className="text-[#FFD747] shrink-0" />
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-black/40 leading-relaxed">
+                  Transactions are encrypted. Acquired items are dispatched within 24 hours of protocol confirmation.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -150,29 +154,16 @@ export default function CheckoutPage() {
   );
 }
 
-// Reusable Input Component for cleaner refactoring
-function CheckoutInput({ 
-  label, 
-  value, 
-  onChange, 
-  type = "text", 
-  placeholder = "" 
-}: { 
-  label: string; 
-  value: string; 
-  onChange: (val: string) => void; 
-  type?: string; 
-  placeholder?: string; 
-}) {
+function CheckoutInput({ label, value, onChange, type = "text", placeholder = "" }: any) {
   return (
-    <div className="space-y-2">
-      <label className="text-[8px] uppercase tracking-widest text-white/20">{label}</label>
+    <div className="space-y-3">
+      <label className="text-[9px] font-black uppercase tracking-widest text-black/40 ml-1">{label}</label>
       <input 
         type={type} 
-        placeholder={placeholder || label.toUpperCase()} 
+        placeholder={placeholder || label.replace("_", " ").toUpperCase()} 
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="w-full bg-transparent border-b border-white/10 py-4 text-[10px] tracking-[0.5em] outline-none focus:border-white transition-colors uppercase placeholder:text-white/5" 
+        className="w-full bg-[#F3F3F3] rounded-2xl py-4 px-6 text-[11px] font-bold tracking-widest outline-none focus:ring-2 focus:ring-[#FFD747] transition-all uppercase placeholder:text-black/10" 
       />
     </div>
   );

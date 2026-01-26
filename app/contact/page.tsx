@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Mail, MessageCircle, MapPin, ArrowRight, Loader2, CheckCircle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { sendInquiry } from "@/app/actions/contact"; // Import the action
+import { sendInquiry } from "@/app/actions/contact";
 
 export default function ContactPage() {
   const [status, setStatus] = useState<"idle" | "sending" | "success">("idle");
@@ -18,53 +18,55 @@ export default function ContactPage() {
     
     if (result.success) {
       setStatus("success");
-      // Resets the form after a delay
       setTimeout(() => setStatus("idle"), 6000);
     } else {
-      alert("SYSTEM_ERROR: Transmission failed. Please try again.");
+      alert("SYSTEM_ERROR: Transmission failed.");
       setStatus("idle");
     }
   }
 
   return (
-    <div className="bg-[#050505] min-h-screen text-white selection:bg-white selection:text-black">
+    <div className="bg-white min-h-screen text-black selection:bg-[#FFD747] selection:text-black">
       <Navbar />
       
-      <main className="pt-32 md:pt-48 pb-20 px-6 md:px-12 max-w-7xl mx-auto">
-        <header className="mb-20 space-y-4">
+      <main className="pt-32 md:pt-48 pb-20 px-6 md:px-12 max-w-7xl mx-auto relative overflow-hidden">
+        {/* DESIGN LAYER: Blueprint Grid & Noise */}
+        <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
+        
+        <header className="mb-24 space-y-4 relative z-10">
           <div className="flex items-center gap-3 mb-2">
-            <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-            <span className="text-[10px] font-mono text-white/30 uppercase tracking-[0.4em]">Communications_Open</span>
+            <div className="w-2 h-2 rounded-full bg-[#FFD747] animate-pulse" />
+            <span className="text-[10px] font-black text-black/30 uppercase tracking-[0.4em]">Communications_Live</span>
           </div>
-          <h1 className="text-6xl md:text-8xl font-light tracking-tighter uppercase italic leading-none">
+          <h1 className="text-6xl md:text-9xl font-black tracking-tighter uppercase italic leading-[0.8] text-black">
             Inquiry <br /> <span className="ml-12 md:ml-24">Portal</span>
           </h1>
         </header>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-20">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-20 relative z-10">
           
           {/* LEFT: Direct Channels */}
-          <div className="space-y-16">
-            <section className="space-y-8">
-              <p className="text-[11px] text-white/40 uppercase tracking-[0.2em] leading-relaxed max-w-sm">
+          <div className="lg:col-span-5 space-y-16">
+            <section className="space-y-10">
+              <p className="text-[12px] font-bold text-black/50 uppercase tracking-[0.2em] leading-relaxed max-w-sm">
                 For order inquiries, authentication requests, or archival submissions, connect via the channels below.
               </p>
 
               <div className="space-y-4">
                 <ContactLink 
-                  icon={<MessageCircle size={16} />} 
+                  icon={<MessageCircle size={18} />} 
                   label="WhatsApp_Direct" 
                   value="+234 813 378 1307" 
                   href="https://wa.me/2348133781307" 
                 />
                 <ContactLink 
-                  icon={<Mail size={16} />} 
+                  icon={<Mail size={18} />} 
                   label="Email_System" 
                   value="ARCHIVE@AVIORE.COM" 
                   href="mailto:orderaviore@gmail.com" 
                 />
                 <ContactLink 
-                  icon={<MapPin size={16} />} 
+                  icon={<MapPin size={18} />} 
                   label="Base_Operations" 
                   value="Lagos, Nigeria" 
                   href="#" 
@@ -72,103 +74,76 @@ export default function ContactPage() {
               </div>
             </section>
 
-            <section className="pt-12 border-t border-white/5">
-              <h3 className="text-[10px] font-mono text-white/20 uppercase tracking-[0.5em] mb-6">Response_Time</h3>
-              <p className="text-2xl font-light italic text-white/80 tracking-tight">24-48 Hours_Standard</p>
+            <section className="pt-12 border-t border-black/5">
+              <h3 className="text-[10px] font-black text-black/20 uppercase tracking-[0.5em] mb-4">Response_Time</h3>
+              <p className="text-3xl font-black italic text-black/80 tracking-tighter">24-48 HOURS_EST</p>
             </section>
           </div>
 
-          {/* RIGHT: Secure Form */}
-          <div className="bg-[#0a0a0a] border border-white/5 p-8 md:p-12 relative overflow-hidden">
+          {/* RIGHT: Secure Form (The Ash-Grey Card) */}
+          <div className="lg:col-span-7 bg-[#F9F9F9] rounded-[40px] p-8 md:p-16 relative overflow-hidden border border-black/5 shadow-2xl shadow-black/5">
             
-            {/* Success Overlay */}
             <AnimatePresence>
               {status === "success" && (
                 <motion.div 
-                  initial={{ opacity: 0 }} 
-                  animate={{ opacity: 1 }} 
-                  exit={{ opacity: 0 }}
-                  className="absolute inset-0 z-20 bg-[#0a0a0a] flex flex-col items-center justify-center text-center p-8"
+                  initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+                  className="absolute inset-0 z-20 bg-[#F9F9F9] flex flex-col items-center justify-center text-center p-8"
                 >
-                  <CheckCircle className="text-white mb-6" size={48} strokeWidth={1} />
-                  <h3 className="text-2xl font-light italic uppercase tracking-tighter mb-4">Transmission_Received</h3>
-                  <p className="text-[10px] text-white/40 uppercase tracking-[0.3em] leading-relaxed max-w-62.5">
-                    Your data has been logged. An automated confirmation was sent to your return channel.
+                  <div className="w-16 h-16 bg-[#FFD747] rounded-full flex items-center justify-center mb-6">
+                    <CheckCircle className="text-black" size={32} strokeWidth={3} />
+                  </div>
+                  <h3 className="text-3xl font-black italic uppercase tracking-tighter mb-4">Logged</h3>
+                  <p className="text-[11px] font-bold text-black/40 uppercase tracking-[0.2em] leading-relaxed max-w-xs">
+                    Your transmission has been received by the Atelier.
                   </p>
                 </motion.div>
               )}
             </AnimatePresence>
 
             <form onSubmit={handleSubmit} className="space-y-10">
-              <div className="space-y-2">
-                <label className="text-[9px] uppercase tracking-[0.4em] text-white/30 ml-1">Subject_Matter</label>
+              <div className="space-y-3">
+                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/30 ml-1">01_Subject</label>
                 <select 
-                  name="subject"
-                  required
-                  className="w-full bg-transparent border-b border-white/10 py-3 text-xs uppercase tracking-widest focus:outline-none focus:border-white transition-colors appearance-none cursor-pointer"
+                  name="subject" required
+                  className="w-full bg-[#F3F3F3] rounded-2xl py-5 px-6 text-[11px] font-black uppercase tracking-widest outline-none appearance-none cursor-pointer focus:ring-2 focus:ring-[#FFD747] transition-all"
                 >
-                  <option value="Order_Support" className="bg-black">Order_Support</option>
-                  <option value="Archival_Inquiry" className="bg-black">Archival_Inquiry</option>
-                  <option value="Press_&_Editorial" className="bg-black">Press_&_Editorial</option>
-                  <option value="Other" className="bg-black">Other</option>
+                  <option value="Order_Support">Order_Support</option>
+                  <option value="Archival_Inquiry">Archival_Inquiry</option>
+                  <option value="Editorial">Press_&_Editorial</option>
                 </select>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-[9px] uppercase tracking-[0.4em] text-white/30 ml-1">Holder_Identity</label>
-                <input 
-                  name="name"
-                  type="text" 
-                  required
-                  placeholder="FULL NAME"
-                  className="w-full bg-transparent border-b border-white/10 py-3 text-xs uppercase tracking-widest focus:outline-none focus:border-white transition-colors placeholder:text-white/10"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/30 ml-1">02_Identity</label>
+                  <input name="name" type="text" required placeholder="FULL NAME"
+                    className="w-full bg-[#F3F3F3] rounded-2xl py-5 px-6 text-[11px] font-black uppercase tracking-widest outline-none placeholder:text-black/10 focus:ring-2 focus:ring-[#FFD747] transition-all" />
+                </div>
+                <div className="space-y-3">
+                  <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/30 ml-1">03_Channel</label>
+                  <input name="email" type="email" required placeholder="EMAIL_ADDRESS"
+                    className="w-full bg-[#F3F3F3] rounded-2xl py-5 px-6 text-[11px] font-black uppercase tracking-widest outline-none placeholder:text-black/10 focus:ring-2 focus:ring-[#FFD747] transition-all" />
+                </div>
               </div>
 
-              {/* Added Email Input for Return Channel */}
-              <div className="space-y-2">
-                <label className="text-[9px] uppercase tracking-[0.4em] text-white/30 ml-1">Return_Channel</label>
-                <input 
-                  name="email"
-                  type="email" 
-                  required
-                  placeholder="EMAIL_ADDRESS"
-                  className="w-full bg-transparent border-b border-white/10 py-3 text-xs uppercase tracking-widest focus:outline-none focus:border-white transition-colors placeholder:text-white/10"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <label className="text-[9px] uppercase tracking-[0.4em] text-white/30 ml-1">Brief_Transmission</label>
-                <textarea 
-                  name="message"
-                  required
-                  rows={4}
-                  placeholder="MESSAGE"
-                  className="w-full bg-transparent border-b border-white/10 py-3 text-xs uppercase tracking-widest focus:outline-none focus:border-white transition-colors placeholder:text-white/10 resize-none"
-                />
+              <div className="space-y-3">
+                <label className="text-[10px] font-black uppercase tracking-[0.4em] text-black/30 ml-1">04_Brief</label>
+                <textarea name="message" required rows={4} placeholder="MESSAGE_DETAILS"
+                  className="w-full bg-[#F3F3F3] rounded-3xl py-5 px-6 text-[11px] font-black uppercase tracking-widest outline-none placeholder:text-black/10 focus:ring-2 focus:ring-[#FFD747] transition-all resize-none" />
               </div>
 
               <button 
-                disabled={status === "sending"}
-                type="submit"
-                className="group flex items-center gap-4 text-[10px] uppercase tracking-[0.6em] text-white pt-4 disabled:opacity-50"
+                disabled={status === "sending"} type="submit"
+                className="w-full bg-black text-white py-6 rounded-full text-[11px] font-black uppercase tracking-[0.6em] flex items-center justify-center gap-4 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-black/5"
               >
                 {status === "sending" ? (
-                  <>
-                    <span>Encrypting...</span>
-                    <Loader2 size={12} className="animate-spin" />
-                  </>
+                  <Loader2 size={16} className="animate-spin" />
                 ) : (
-                  <>
-                    <span>Send_Message</span>
-                    <div className="w-10 h-px bg-white/20 group-hover:w-16 group-hover:bg-white transition-all duration-500" />
-                    <ArrowRight size={12} />
-                  </>
+                  <>Send_Transmission <ArrowRight size={16} strokeWidth={3} /></>
                 )}
               </button>
             </form>
           </div>
-
         </div>
       </main>
       <Footer />
@@ -178,20 +153,13 @@ export default function ContactPage() {
 
 function ContactLink({ icon, label, value, href }: { icon: any; label: string; value: string; href: string }) {
   return (
-    <a 
-      href={href} 
-      className="flex items-center gap-6 p-6 border border-white/5 hover:bg-white hover:text-black transition-all duration-500 group"
-    >
-      <div className="text-white group-hover:text-black transition-colors">
+    <a href={href} className="flex items-center gap-6 p-6 rounded-[30px] bg-[#F9F9F9] border border-black/5 hover:bg-black hover:text-white transition-all duration-500 group">
+      <div className="bg-white p-4 rounded-2xl shadow-sm text-black group-hover:bg-[#FFD747] transition-colors">
         {icon}
       </div>
       <div>
-        <p className="text-[8px] font-mono text-white/20 uppercase tracking-[0.4em] group-hover:text-black/40">
-          {label}
-        </p>
-        <p className="text-xs uppercase tracking-widest font-medium">
-          {value}
-        </p>
+        <p className="text-[9px] font-black text-black/30 uppercase tracking-[0.3em] group-hover:text-white/40">{label}</p>
+        <p className="text-[13px] font-black uppercase tracking-tighter italic">{value}</p>
       </div>
     </a>
   );
